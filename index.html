@@ -2,259 +2,249 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Program HD Rutin - Skrining Adekuasi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>HD Routine Care - Skrining Adekuasi</title>
   <style>
     :root{
-      --bg: #f6f8ff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --shadow: 0 18px 40px rgba(15, 23, 42, 0.10);
-      --radius: 22px;
-      --patient: #2563eb;
-      --clinic: #0f766e;
-      --dialysis: #7c3aed;
-      --risk: #dc2626;
-      --result: #f59e0b;
-      --good: #16a34a;
-      --warn: #d97706;
-      --bad: #ef4444;
+      --bg1:#0f172a;
+      --bg2:#111827;
+      --card:#ffffff;
+      --muted:#64748b;
+      --text:#0f172a;
+      --line:#e5e7eb;
+      --primary:#2563eb;
+      --primary2:#06b6d4;
+      --success:#16a34a;
+      --warning:#f59e0b;
+      --danger:#ef4444;
+      --purple:#7c3aed;
+      --pink:#ec4899;
+      --teal:#14b8a6;
+      --orange:#f97316;
+      --shadow:0 18px 50px rgba(15,23,42,.12);
+      --radius:22px;
     }
-    * { box-sizing: border-box; }
-    body{
-      margin:0;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, #dbeafe 0, transparent 28%),
-        radial-gradient(circle at top right, #fce7f3 0, transparent 22%),
-        linear-gradient(180deg, #f8fbff, var(--bg));
-      color: var(--text);
-      min-height: 100vh;
-      padding: 22px;
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:
+      radial-gradient(circle at top left, rgba(59,130,246,.22), transparent 26%),
+      radial-gradient(circle at top right, rgba(236,72,153,.16), transparent 22%),
+      linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%);
+      color:var(--text);
+      min-height:100%;
     }
-    .wrap{
-      max-width: 1180px;
-      margin: 0 auto;
-    }
-    .header{
-      background: linear-gradient(135deg, #1d4ed8, #06b6d4);
-      color: white;
-      padding: 24px;
-      border-radius: 28px;
+    body{padding:16px}
+    .app{max-width:1280px;margin:0 auto}
+    .topbar{
+      background: linear-gradient(135deg, #0f172a, #1d4ed8 60%, #06b6d4);
+      color:#fff;
+      border-radius:28px;
+      padding:22px;
       box-shadow: var(--shadow);
-      margin-bottom: 18px;
+      position:relative;
+      overflow:hidden;
     }
-    .header h1{
-      margin: 0 0 8px;
-      font-size: clamp(26px, 4vw, 40px);
-      letter-spacing: -0.03em;
+    .topbar::after{
+      content:"";
+      position:absolute; inset:auto -80px -120px auto;
+      width:260px;height:260px;border-radius:50%;
+      background: rgba(255,255,255,.10);
+      filter: blur(2px);
     }
-    .header p{
-      margin: 0;
-      max-width: 900px;
-      line-height: 1.6;
-      opacity: .95;
+    .brand{
+      display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:relative;z-index:1
     }
-    .grid{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+    .logo{
+      width:54px;height:54px;border-radius:18px;
+      background: linear-gradient(135deg, #fff, rgba(255,255,255,.7));
+      display:grid;place-items:center;color:#1d4ed8;font-size:28px;font-weight:900;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
     }
-    .card{
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.7);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px;
-    }
-    .card h2{
-      margin: 0 0 14px;
-      font-size: 18px;
-      letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .sub-patient{ border-top: 6px solid var(--patient); }
-    .sub-clinic{ border-top: 6px solid var(--clinic); }
-    .sub-dialysis{ border-top: 6px solid var(--dialysis); }
-    .sub-risk{ border-top: 6px solid var(--risk); }
-    .sub-result{ border-top: 6px solid var(--result); }
-
-    .section-note{
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 14px;
-      line-height: 1.5;
-    }
-    .field{
-      margin-bottom: 14px;
-    }
-    label{
-      display:block;
-      font-weight: 700;
-      margin-bottom: 7px;
-      font-size: 14px;
-    }
-    input, select{
-      width:100%;
-      padding: 13px 14px;
-      border-radius: 16px;
-      border: 2px solid #e5e7eb;
-      background: white;
-      font-size: 14px;
-      outline: none;
-      transition: .2s ease;
-    }
-    input:focus, select:focus{
-      border-color: #2563eb;
-      box-shadow: 0 0 0 4px rgba(37,99,235,.12);
-    }
-    .row{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .chips{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .chip{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      background: #f8fafc;
-      border: 1px solid #e5e7eb;
-      font-size: 13px;
-      cursor: pointer;
-      user-select: none;
-    }
-    .chip input{ width:auto; margin:0; }
-    .actions{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-    button{
-      border:none;
-      border-radius: 16px;
-      padding: 13px 18px;
-      font-weight: 800;
-      cursor:pointer;
-      font-size: 14px;
-      transition: transform .12s ease, box-shadow .2s ease;
-    }
-    button:hover{ transform: translateY(-1px); }
-    .btn-primary{
-      background: linear-gradient(135deg, #2563eb, #06b6d4);
-      color:white;
-      box-shadow: 0 12px 22px rgba(37,99,235,.22);
-    }
-    .btn-secondary{
-      background:#eef2ff;
-      color:#1e3a8a;
-    }
-
-    .result-box{
-      border-radius: 22px;
-      padding: 18px;
-      color:white;
-      background: linear-gradient(135deg, #64748b, #334155);
-      min-height: 180px;
-      display:flex;
-      flex-direction: column;
-      justify-content:center;
-    }
-    .status{
-      display:inline-flex;
-      width:fit-content;
-      padding: 8px 14px;
-      border-radius:999px;
-      font-size:13px;
-      font-weight:800;
-      background: rgba(255,255,255,.18);
-      margin-bottom: 8px;
-    }
-    .score{
-      font-size: clamp(42px, 6vw, 58px);
-      font-weight: 900;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      margin: 4px 0 8px;
-    }
-    .result-text{
-      font-size: 14px;
-      line-height: 1.6;
-      opacity: .98;
-    }
-    .panel{
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 18px;
-      padding: 16px;
-      margin-top: 14px;
-    }
-    .panel h3{
-      margin:0 0 8px;
-      font-size: 16px;
-    }
-    .panel ul{
-      margin:0;
-      padding-left: 18px;
-      color: var(--muted);
-      line-height: 1.7;
-      font-size: 14px;
-    }
-    .help{
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 6px;
-      line-height: 1.45;
-    }
-    .full{
-      grid-column: 1 / -1;
+    .title h1{margin:0;font-size:clamp(24px,3.4vw,38px);letter-spacing:-.03em}
+    .title p{margin:6px 0 0;opacity:.92;line-height:1.55;font-size:14px;max-width:920px}
+    .badgeRow{
+      margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1
     }
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 7px 12px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:800;
-      background:#f1f5f9;
-      color:#334155;
-      margin-bottom: 12px;
+      display:inline-flex;align-items:center;gap:8px;
+      background: rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      color:#fff;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700
     }
-    .good{ background: linear-gradient(135deg, #16a34a, #22c55e) !important; }
-    .warn{ background: linear-gradient(135deg, #d97706, #f59e0b) !important; }
-    .bad{ background: linear-gradient(135deg, #dc2626, #ef4444) !important; }
-    @media (max-width: 860px){
-      .grid{ grid-template-columns: 1fr; }
-      .row{ grid-template-columns: 1fr; }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+      margin-top:16px;
+    }
+    .full{grid-column:1/-1}
+    .card{
+      background:rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(255,255,255,.7);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+    }
+    .sectionHead{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px
+    }
+    .sectionTitle{
+      display:flex;align-items:center;gap:10px;margin:0;font-size:18px;letter-spacing:-.02em
+    }
+    .chipTitle{
+      font-size:12px;font-weight:800;padding:7px 11px;border-radius:999px;background:#f8fafc;border:1px solid var(--line);color:#334155
+    }
+    .sub-patient{border-top:6px solid var(--primary)}
+    .sub-clinical{border-top:6px solid var(--teal)}
+    .sub-dialysis{border-top:6px solid var(--purple)}
+    .sub-risk{border-top:6px solid var(--pink)}
+    .sub-result{border-top:6px solid var(--orange)}
+    .sub-share{border-top:6px solid var(--success)}
+    .sectionNote{margin:0 0 14px;color:var(--muted);line-height:1.55;font-size:13px}
+
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .field{margin-bottom:12px}
+    label{display:block;font-size:13px;font-weight:800;margin-bottom:7px;color:#111827}
+    input,select,textarea{
+      width:100%;
+      border:1.8px solid #dbe2ea;
+      background:#fff;
+      border-radius:16px;
+      padding:13px 14px;
+      font-size:14px;
+      outline:none;
+      transition:.2s ease;
+      color:#0f172a;
+    }
+    textarea{min-height:96px;resize:vertical}
+    input:focus,select:focus,textarea:focus{
+      border-color: var(--primary);
+      box-shadow:0 0 0 4px rgba(37,99,235,.11);
+    }
+    .help{margin-top:6px;font-size:12px;color:var(--muted);line-height:1.45}
+    .chips{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{
+      display:flex;align-items:center;gap:8px;
+      padding:10px 12px;border-radius:999px;
+      border:1px solid var(--line);background:#fff;font-size:13px;font-weight:700;color:#334155;
+      user-select:none
+    }
+    .chip input{width:auto;margin:0}
+    .toolbar{
+      display:flex;gap:10px;flex-wrap:wrap;margin-top:10px
+    }
+    .btn{
+      border:none;cursor:pointer;border-radius:16px;padding:13px 16px;font-size:14px;font-weight:900;
+      display:inline-flex;align-items:center;gap:9px;transition:.15s ease;
+      box-shadow:0 10px 20px rgba(15,23,42,.08)
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff}
+    .btn-secondary{background:#eef2ff;color:#1e3a8a}
+    .btn-green{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff}
+    .btn-dark{background:#0f172a;color:#fff}
+    .btn-light{background:#f8fafc;color:#0f172a;border:1px solid var(--line)}
+    .mutedBox{
+      border:1px dashed #cbd5e1;background:#f8fafc;border-radius:18px;padding:14px;color:#334155;font-size:13px;line-height:1.55
+    }
+    .resultBox{
+      border-radius:24px;padding:18px;color:#fff;min-height:180px;
+      background:linear-gradient(135deg,#334155,#0f172a);
+      display:flex;flex-direction:column;justify-content:center;gap:8px
+    }
+    .statusPill{
+      width:fit-content;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.15);
+      font-size:12px;font-weight:900;letter-spacing:.02em
+    }
+    .score{
+      font-size:clamp(42px,5vw,60px);font-weight:950;line-height:1;letter-spacing:-.05em;margin:0
+    }
+    .resultText{font-size:14px;line-height:1.65;opacity:.98}
+    .resultGood{background:linear-gradient(135deg,#16a34a,#22c55e)!important}
+    .resultWarn{background:linear-gradient(135deg,#d97706,#f59e0b)!important}
+    .resultBad{background:linear-gradient(135deg,#dc2626,#ef4444)!important}
+    .summaryGrid{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px
+    }
+    .metric{
+      background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px
+    }
+    .metric .k{font-size:12px;color:var(--muted);font-weight:800}
+    .metric .v{font-size:20px;font-weight:950;margin-top:6px;letter-spacing:-.02em}
+    .metric .s{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.45}
+    .list{
+      margin:0;padding-left:18px;color:#475569;line-height:1.7;font-size:13px
+    }
+    .loginOverlay{
+      position:fixed;inset:0;background:rgba(15,23,42,.52);backdrop-filter: blur(8px);
+      display:flex;align-items:center;justify-content:center;padding:16px;z-index:9999
+    }
+    .loginCard{
+      width:min(460px,100%);background:#fff;border-radius:24px;padding:22px;box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.7)
+    }
+    .loginCard h2{margin:0 0 8px;font-size:24px}
+    .loginCard p{margin:0 0 14px;color:var(--muted);line-height:1.55;font-size:14px}
+    .hidden{display:none !important}
+    .footerNote{
+      margin:16px 0 6px;color:#64748b;font-size:12px;line-height:1.55;text-align:center
+    }
+
+    @media (max-width: 980px){
+      .grid,.summaryGrid,.row{grid-template-columns:1fr}
+    }
+    @media (max-width: 640px){
+      body{padding:10px}
+      .topbar{border-radius:22px;padding:18px}
+      .card{padding:15px}
+      .btn{width:100%;justify-content:center}
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="header">
-      <h1>Program Hemodialisis Rutin</h1>
-      <p>Alat skrining edukasi untuk menilai apakah program HD rutin sudah cenderung adekuat dengan melihat data pasien, komorbid, dan hasil dialisis. Fokus utama tetap pada <b>spKt/V</b> dengan target 1,4, tetapi hasil juga diberi konteks klinis agar lebih mudah dibedakan per topik.</p>
+  <div class="loginOverlay" id="loginOverlay">
+    <div class="loginCard">
+      <h2>Masuk dengan Nomor HP</h2>
+      <p>Masukkan nomor HP untuk membuka aplikasi. Ini login lokal untuk keperluan demo/prototype.</p>
+      <div class="field">
+        <label>Nomor HP</label>
+        <input id="loginPhone" type="tel" placeholder="Contoh: 08123456789" />
+      </div>
+      <div class="toolbar">
+        <button class="btn btn-primary" onclick="loginApp()">Masuk</button>
+      </div>
+      <div class="help" style="margin-top:10px;">Untuk login aman dan OTP sungguhan, aplikasi perlu backend.</div>
+    </div>
+  </div>
+
+  <div class="app hidden" id="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">💎</div>
+        <div class="title">
+          <h1>HD Routine Care</h1>
+          <p>Aplikasi skrining program hemodialisis rutin dengan tampilan modern, responsif, dan mudah dipakai di HP maupun PC. Pre/post ureum opsional, tetapi bila ada akan ikut dihitung dan ditampilkan.</p>
+        </div>
+      </div>
+      <div class="badgeRow">
+        <div class="badge">📱 Mobile friendly</div>
+        <div class="badge">🖥️ Desktop ready</div>
+        <div class="badge">📄 Export PDF</div>
+        <div class="badge">💬 WhatsApp share</div>
+      </div>
     </div>
 
     <div class="grid">
       <div class="card sub-patient">
-        <h2>👤 Data Pasien</h2>
-        <div class="section-note">Bagian ini dipakai untuk identitas dasar dan perkiraan ukuran tubuh.</div>
+        <div class="sectionHead">
+          <h2 class="sectionTitle">👤 Data Pasien</h2>
+          <div class="chipTitle">Identitas dasar</div>
+        </div>
+        <p class="sectionNote">Bagian ini dipakai untuk gambaran pasien dan dukungan perhitungan ukuran tubuh.</p>
 
         <div class="row">
           <div class="field">
-            <label>Nama / Kode Pasien</label>
+            <label>Nama / Kode</label>
             <input id="nama" type="text" placeholder="Contoh: P001" />
           </div>
           <div class="field">
@@ -269,25 +259,26 @@
         <div class="row">
           <div class="field">
             <label>Berat Badan (kg)</label>
-            <input id="bb" type="number" min="1" step="0.1" placeholder="Contoh: 60" />
-            <div class="help">Gunakan BB kering bila tersedia.</div>
+            <input id="bb" type="number" min="1" step="0.1" placeholder="60" />
           </div>
           <div class="field">
             <label>Tinggi Badan (cm)</label>
-            <input id="tb" type="number" min="1" step="0.1" placeholder="Contoh: 160" />
-            <div class="help">Dipakai untuk gambaran ukuran tubuh.</div>
+            <input id="tb" type="number" min="1" step="0.1" placeholder="160" />
           </div>
         </div>
 
         <div class="field">
-          <label>Umur (tahun)</label>
-          <input id="umur" type="number" min="1" step="1" placeholder="Contoh: 55" />
+          <label>Usia (tahun)</label>
+          <input id="umur" type="number" min="1" step="1" placeholder="55" />
         </div>
       </div>
 
-      <div class="card sub-clinic">
-        <h2>🏥 Data Klinis</h2>
-        <div class="section-note">Bagian ini membantu memberi konteks apakah pasien berisiko tinggi atau stabil.</div>
+      <div class="card sub-clinical">
+        <div class="sectionHead">
+          <h2 class="sectionTitle">🏥 Data Klinis</h2>
+          <div class="chipTitle">Kondisi umum</div>
+        </div>
+        <p class="sectionNote">Komorbid membantu menilai apakah pasien perlu evaluasi program HD yang lebih hati-hati.</p>
 
         <div class="chips">
           <label class="chip"><input type="checkbox" id="dm"> Diabetes</label>
@@ -299,8 +290,8 @@
         </div>
 
         <div class="field" style="margin-top:14px;">
-          <label>Keluhan utama saat ini</label>
-          <input id="keluhan" type="text" placeholder="Contoh: sesak, bengkak, lemas" />
+          <label>Keluhan saat ini</label>
+          <textarea id="keluhan" placeholder="Contoh: sesak, bengkak, lemas, gatal, nafsu makan turun"></textarea>
         </div>
 
         <div class="field">
@@ -314,198 +305,358 @@
       </div>
 
       <div class="card sub-dialysis">
-        <h2>💧 Data Dialisis</h2>
-        <div class="section-note">Bagian ini berhubungan langsung dengan adekuasi sesi hemodialisis.</div>
+        <div class="sectionHead">
+          <h2 class="sectionTitle">💧 Data Dialisis</h2>
+          <div class="chipTitle">Opsional & utama</div>
+        </div>
+        <p class="sectionNote">Pre/post ureum opsional. Jika tidak diisi, sistem tetap menghitung skrining dengan data lain.</p>
 
         <div class="row">
           <div class="field">
-            <label>Ureum pre-HD (mg/dL)</label>
-            <input id="pre" type="number" min="0" step="0.1" placeholder="Contoh: 80" />
+            <label>Ureum pre-HD (opsional)</label>
+            <input id="pre" type="number" min="0" step="0.1" placeholder="80" />
           </div>
           <div class="field">
-            <label>Ureum post-HD (mg/dL)</label>
-            <input id="post" type="number" min="0" step="0.1" placeholder="Contoh: 20" />
+            <label>Ureum post-HD (opsional)</label>
+            <input id="post" type="number" min="0" step="0.1" placeholder="20" />
           </div>
         </div>
 
         <div class="row">
           <div class="field">
             <label>Durasi HD (menit)</label>
-            <input id="durasi" type="number" min="1" step="1" placeholder="Contoh: 240" />
+            <input id="durasi" type="number" min="1" step="1" placeholder="240" />
           </div>
           <div class="field">
+            <label>Frekuensi HD / minggu</label>
+            <select id="freq">
+              <option value="2">2 kali/minggu</option>
+              <option value="3" selected>3 kali/minggu</option>
+              <option value="4">4 kali/minggu</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
             <label>Qb (mL/menit)</label>
-            <input id="qb" type="number" min="0" step="1" placeholder="Contoh: 250" />
+            <input id="qb" type="number" min="0" step="1" placeholder="250" />
+          </div>
+          <div class="field">
+            <label>Qd (mL/menit)</label>
+            <input id="qd" type="number" min="0" step="1" placeholder="500" />
           </div>
         </div>
 
         <div class="field">
-          <label>Qd (mL/menit)</label>
-          <input id="qd" type="number" min="0" step="1" placeholder="Contoh: 500" />
+          <label>Target minimal spKt/V</label>
+          <select id="target">
+            <option value="1.4" selected>1.4</option>
+            <option value="1.2">1.2</option>
+          </select>
         </div>
       </div>
 
       <div class="card sub-risk">
-        <h2>🚦 Komorbid & Risiko</h2>
-        <div class="section-note">Komorbid tidak menentukan Kt/V, tetapi membantu menilai kebutuhan evaluasi program lebih ketat.</div>
+        <div class="sectionHead">
+          <h2 class="sectionTitle">🚦 Komorbid & Risiko</h2>
+          <div class="chipTitle">Evaluasi lebih ketat</div>
+        </div>
+        <p class="sectionNote">Bila ada beberapa faktor risiko, aplikasi akan memberi peringatan agar program HD ditinjau lebih lanjut.</p>
 
         <div class="chips">
           <label class="chip"><input type="checkbox" id="stroke"> Riwayat stroke</label>
-          <label class="chip"><input type="checkbox" id="cad"> Penyakit jantung koroner</label>
+          <label class="chip"><input type="checkbox" id="cad"> PJK</label>
           <label class="chip"><input type="checkbox" id="obesitas"> Obesitas</label>
-          <label class="chip"><input type="checkbox" id="ckd"> CKD berat / lama HD</label>
+          <label class="chip"><input type="checkbox" id="ckd"> CKD lama / HD lama</label>
           <label class="chip"><input type="checkbox" id="akses"> Masalah akses vaskular</label>
         </div>
 
         <div class="field" style="margin-top:14px;">
-          <label>Frekuensi HD per minggu</label>
-          <select id="freq">
-            <option value="2">2 kali/minggu</option>
-            <option value="3" selected>3 kali/minggu</option>
-            <option value="4">4 kali/minggu</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>Target klinis yang dipakai</label>
-          <select id="target">
-            <option value="1.4" selected>spKt/V 1,4</option>
-            <option value="1.2">spKt/V 1,2</option>
-          </select>
+          <label>Catatan tambahan</label>
+          <textarea id="catatan" placeholder="Contoh: pasien sering kram, hipotensi, atau sesi sering terputus"></textarea>
         </div>
       </div>
 
-      <div class="card sub-result full">
-        <h2>📊 Hasil Program</h2>
-        <div class="section-note">Hasil di bawah ini menunjukkan skrining awal, bukan keputusan akhir klinis.</div>
+      <div class="card sub-result">
+        <div class="sectionHead">
+          <h2 class="sectionTitle">📊 Hasil Skrining</h2>
+          <div class="chipTitle">Output utama</div>
+        </div>
 
-        <div class="result-box" id="resultBox">
-          <div class="status" id="statusPill">Menunggu input</div>
+        <div class="resultBox" id="resultBox">
+          <div class="statusPill" id="statusPill">Menunggu input</div>
           <div class="score" id="score">--</div>
-          <div class="result-text" id="resultText">Masukkan data pasien dan dialisis untuk melihat hasil.</div>
+          <div class="resultText" id="resultText">Masukkan data pasien dan dialisis untuk melihat hasil.</div>
         </div>
 
-        <div class="panel">
-          <h3>Interpretasi</h3>
-          <ul>
-            <li>Hijau: hasil memenuhi target yang dipilih.</li>
-            <li>Kuning: hasil cukup, tetapi perlu evaluasi program.</li>
-            <li>Merah: hasil di bawah batas yang dipilih.</li>
-            <li>Komorbid berat dan masalah akses vaskular akan menambah alasan untuk evaluasi dokter.</li>
-          </ul>
+        <div class="summaryGrid">
+          <div class="metric">
+            <div class="k">BMI</div>
+            <div class="v" id="bmiVal">--</div>
+            <div class="s">Indikator ukuran tubuh</div>
+          </div>
+          <div class="metric">
+            <div class="k">Riwayat risiko</div>
+            <div class="v" id="riskVal">0</div>
+            <div class="s">Jumlah komorbid yang ditandai</div>
+          </div>
+          <div class="metric">
+            <div class="k">Pre/Post</div>
+            <div class="v" id="prepostVal">Opsional</div>
+            <div class="s">Dipakai jika tersedia</div>
+          </div>
+          <div class="metric">
+            <div class="k">Frekuensi</div>
+            <div class="v" id="freqVal">3x/minggu</div>
+            <div class="s">Program HD rutin</div>
+          </div>
         </div>
 
-        <div class="actions">
-          <button class="btn-primary" onclick="proses()">Hitung Skrining</button>
-          <button class="btn-secondary" onclick="resetForm()">Reset</button>
+        <div class="toolbar" style="margin-top:14px;">
+          <button class="btn btn-primary" onclick="calculate()">✨ Hitung</button>
+          <button class="btn btn-secondary" onclick="saveLocal()">💾 Simpan Lokal</button>
+          <button class="btn btn-green" onclick="exportPDF()">📄 Simpan PDF</button>
+          <button class="btn btn-dark" onclick="shareWA()">💬 Share WA</button>
+          <button class="btn btn-light" onclick="resetAll()">↩ Reset</button>
         </div>
       </div>
+
+      <div class="card sub-share full">
+        <div class="sectionHead">
+          <h2 class="sectionTitle">📤 Share & Kirim</h2>
+          <div class="chipTitle">WhatsApp / file</div>
+        </div>
+        <p class="sectionNote">Gunakan nomor tujuan untuk WhatsApp, atau simpan hasil sebagai file lokal/PDF. Bila perangkat mendukung, Anda juga bisa pakai menu share bawaan browser.</p>
+
+        <div class="row">
+          <div class="field">
+            <label>Nomor WA tujuan</label>
+            <input id="waTo" type="tel" placeholder="62812xxxxxxx" />
+            <div class="help">Pakai format internasional tanpa tanda plus.</div>
+          </div>
+          <div class="field">
+            <label>Pesan ringkas</label>
+            <input id="waMsg" type="text" placeholder="Hasil skrining adekuasi HD" />
+            <div class="help">Teks ini akan dikirim ke WA.</div>
+          </div>
+        </div>
+
+        <div class="mutedBox" id="sharePreview">
+          Hasil skrining akan muncul di sini setelah dihitung. Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
+        </div>
+      </div>
+    </div>
+
+    <div class="footerNote">
+      Aplikasi edukasi skrining program HD rutin. Untuk keputusan klinis akhir tetap diperlukan penilaian dokter/nephrologist.
     </div>
   </div>
 
   <script>
-    function val(id){ return document.getElementById(id); }
+    const $ = (id) => document.getElementById(id);
 
-    function proses(){
-      const pre = parseFloat(val('pre').value);
-      const post = parseFloat(val('post').value);
-      const durasi = parseFloat(val('durasi').value);
-      const bb = parseFloat(val('bb').value);
-      const tb = parseFloat(val('tb').value);
-      const qb = parseFloat(val('qb').value) || 0;
-      const qd = parseFloat(val('qd').value) || 0;
-      const target = parseFloat(val('target').value);
-
-      const gender = val('gender').value;
-      const freq = parseInt(val('freq').value, 10);
-
-      const flags = [
-        val('dm').checked, val('ht').checked, val('hf').checked,
-        val('anemia').checked, val('malnutrisi').checked, val('hipotensi').checked,
-        val('stroke').checked, val('cad').checked, val('obesitas').checked,
-        val('ckd').checked, val('akses').checked
-      ];
-      const riskCount = flags.filter(Boolean).length;
-
-      const resultBox = val('resultBox');
-      const statusPill = val('statusPill');
-      const scoreEl = val('score');
-      const resultText = val('resultText');
-
-      if ([pre, post, durasi, bb, tb].some(v => Number.isNaN(v) || v <= 0)) {
-        resultBox.className = 'result-box';
-        statusPill.textContent = 'Input belum lengkap';
-        scoreEl.textContent = '--';
-        resultText.textContent = 'Isi minimal ureum pre-HD, ureum post-HD, durasi, BB, dan TB.';
+    function loginApp(){
+      const p = $('loginPhone').value.trim();
+      if(!p){
+        alert('Masukkan nomor HP terlebih dahulu.');
         return;
       }
-
-      if (post >= pre) {
-        resultBox.className = 'result-box bad';
-        statusPill.textContent = 'Data perlu dicek';
-        scoreEl.textContent = '0.00';
-        resultText.textContent = 'Ureum post-HD seharusnya lebih rendah dari pre-HD. Silakan periksa lagi data input atau cara pengambilan sampel.';
-        return;
-      }
-
-      const ratio = Math.max(0.01, Math.min(0.99, post / pre));
-      const sexFactor = gender === 'P' ? 1.05 : 1.0;
-      const sizeFactor = Math.max(0.85, Math.min(1.2, 60 / Math.max(bb, 30)));
-      const heightFactor = Math.max(0.9, Math.min(1.15, 165 / Math.max(tb, 120)));
-      const timeFactor = durasi / 240;
-      const clearanceFactor = 1 + ((qb / 300) * 0.08) + ((qd / 500) * 0.05);
-      const base = (-Math.log(ratio)) * 0.95;
-      const adjusted = base * timeFactor * clearanceFactor * sexFactor * sizeFactor * heightFactor;
-      const ktv = Math.max(0, adjusted);
-      scoreEl.textContent = ktv.toFixed(2);
-
-      let status = 'Perlu evaluasi';
-      let colorClass = 'warn';
-      let text = 'Hasil cukup, tetapi program dialisis masih perlu ditinjau bersama tim HD.';
-
-      if (ktv >= target) {
-        status = 'Memenuhi target';
-        colorClass = 'good';
-        text = 'Hasil memenuhi target yang dipilih. Tetap perhatikan keluhan, cairan, dan komorbid pasien.';
-      } else if (ktv >= 1.2) {
-        status = 'Cukup, pantau';
-        colorClass = 'warn';
-        text = 'Hasil masih di atas batas minimal umum, tetapi belum masuk target program yang dipilih.';
-      } else {
-        status = 'Di bawah target';
-        colorClass = 'bad';
-        text = 'Hasil di bawah batas yang dipilih. Evaluasi durasi, akses vaskular, aliran darah, dan komorbid perlu dipertimbangkan.';
-      }
-
-      if (riskCount >= 3) {
-        text += ' Pasien juga memiliki beberapa komorbid sehingga evaluasi klinis sebaiknya lebih ketat.';
-      }
-      if (freq <= 2) {
-        text += ' Frekuensi 2 kali per minggu bisa memerlukan penilaian yang lebih hati-hati pada beberapa pasien.';
-      }
-      if (durasi < 180) {
-        text += ' Durasi HD terlihat singkat.';
-      }
-      if (val('akses').checked) {
-        text += ' Masalah akses vaskular dapat menurunkan kualitas sesi.';
-      }
-
-      resultBox.className = 'result-box ' + colorClass;
-      statusPill.textContent = status;
-      resultText.textContent = text;
+      localStorage.setItem('hd_login_phone', p);
+      $('loginOverlay').classList.add('hidden');
+      $('app').classList.remove('hidden');
+      $('waMsg').value = 'Hasil skrining adekuasi HD';
     }
 
-    function resetForm(){
-      ['nama','bb','tb','umur','pre','post','durasi','qb','qd'].forEach(id => val(id).value = '');
-      ['dm','ht','hf','anemia','malnutrisi','hipotensi','stroke','cad','obesitas','ckd','akses'].forEach(id => val(id).checked = false);
-      val('gender').value = 'L';
-      val('cairan').value = 'baik';
-      val('freq').value = '3';
-      val('target').value = '1.4';
-      val('statusPill').textContent = 'Menunggu input';
-      val('score').textContent = '--';
-      val('resultText').textContent = 'Masukkan data pasien dan dialisis untuk melihat hasil.';
-      val('resultBox').className = 'result-box';
+    function getRiskCount(){
+      const ids = ['dm','ht','hf','anemia','malnutrisi','hipotensi','stroke','cad','obesitas','ckd','akses'];
+      return ids.filter(id => $(id).checked).length;
+    }
+
+    function getBMI(bb, tb){
+      const m = tb / 100;
+      if(!bb || !tb || m <= 0) return null;
+      return bb / (m*m);
+    }
+
+    function calculate(){
+      const name = $('nama').value.trim() || 'Pasien';
+      const gender = $('gender').value;
+      const bb = parseFloat($('bb').value);
+      const tb = parseFloat($('tb').value);
+      const umur = $('umur').value.trim();
+      const durasi = parseFloat($('durasi').value);
+      const qb = parseFloat($('qb').value) || 0;
+      const qd = parseFloat($('qd').value) || 0;
+      const freq = parseInt($('freq').value, 10);
+      const target = parseFloat($('target').value);
+      const pre = parseFloat($('pre').value);
+      const post = parseFloat($('post').value);
+
+      const resultBox = $('resultBox');
+      const statusPill = $('statusPill');
+      const score = $('score');
+      const resultText = $('resultText');
+      const bmi = getBMI(bb, tb);
+      const riskCount = getRiskCount();
+      const hasPrePost = !Number.isNaN(pre) && !Number.isNaN(post) && pre > 0 && post > 0 && post < pre;
+
+      if([bb,tb,durasi].some(v => Number.isNaN(v) || v <= 0)){
+        resultBox.className = 'resultBox';
+        statusPill.textContent = 'Input belum lengkap';
+        score.textContent = '--';
+        resultText.textContent = 'Isi minimal BB, TB, dan durasi HD.';
+        $('bmiVal').textContent = '--';
+        $('riskVal').textContent = riskCount;
+        $('prepostVal').textContent = 'Opsional';
+        $('freqVal').textContent = freq + 'x/minggu';
+        $('sharePreview').textContent = 'Belum ada hasil yang dapat dibagikan.';
+        return;
+      }
+
+      let ktv;
+      let infoPrePost = '';
+      if(hasPrePost){
+        const ratio = Math.max(0.01, Math.min(0.99, post / pre));
+        const sexFactor = gender === 'P' ? 1.05 : 1.0;
+        const sizeFactor = Math.max(0.85, Math.min(1.2, 60 / Math.max(bb, 30)));
+        const heightFactor = Math.max(0.9, Math.min(1.15, 165 / Math.max(tb, 120)));
+        const timeFactor = durasi / 240;
+        const clearanceFactor = 1 + ((qb / 300) * 0.08) + ((qd / 500) * 0.05);
+        ktv = Math.max(0, (-Math.log(ratio)) * 0.95 * timeFactor * clearanceFactor * sexFactor * sizeFactor * heightFactor);
+        infoPrePost = `Pre/Post tersedia (${pre.toFixed(1)} → ${post.toFixed(1)} mg/dL). `;
+      } else {
+        const sizeFactor = Math.max(0.85, Math.min(1.2, 60 / Math.max(bb, 30)));
+        const sexFactor = gender === 'P' ? 1.04 : 1.0;
+        const bmiFactor = bmi ? Math.max(0.9, Math.min(1.08, 27 / bmi)) : 1.0;
+        const timeFactor = durasi / 240;
+        const freqFactor = freq === 2 ? 0.92 : (freq === 4 ? 1.08 : 1.0);
+        const flowFactor = 1 + ((qb / 300) * 0.07) + ((qd / 500) * 0.04);
+        ktv = Math.max(0, 1.05 * timeFactor * sizeFactor * sexFactor * bmiFactor * freqFactor * flowFactor);
+      }
+
+      score.textContent = ktv.toFixed(2);
+      $('bmiVal').textContent = bmi ? bmi.toFixed(1) : '--';
+      $('riskVal').textContent = riskCount;
+      $('prepostVal').textContent = hasPrePost ? 'Ada' : 'Tidak ada';
+      $('freqVal').textContent = freq + 'x/minggu';
+
+      let status = '';
+      let cls = '';
+      let text = '';
+
+      if(ktv >= target){
+        status = 'Memenuhi target';
+        cls = 'resultBox resultGood';
+        text = infoPrePost + 'Hasil masuk kategori baik sesuai target yang dipilih. Tetap perhatikan cairan, keluhan, dan komorbid.';
+      } else if(ktv >= 1.2){
+        status = 'Cukup, perlu pantau';
+        cls = 'resultBox resultWarn';
+        text = infoPrePost + 'Hasil masih di atas batas minimal umum, tetapi belum optimal untuk target program yang dipilih.';
+      } else {
+        status = 'Di bawah target';
+        cls = 'resultBox resultBad';
+        text = infoPrePost + 'Hasil berada di bawah target. Perlu evaluasi durasi, aliran, akses vaskular, dan kondisi klinis.';
+      }
+
+      if(riskCount >= 3) text += ' Pasien memiliki beberapa komorbid sehingga evaluasi lebih ketat dianjurkan.';
+      if(durasi < 180) text += ' Durasi HD relatif singkat.';
+      if($('akses').checked) text += ' Masalah akses vaskular dapat menurunkan kualitas sesi.';
+      if($('cairan').value === 'buruk') text += ' Status cairan menunjukkan overload / bengkak.';
+      if(umur) text += ` Usia pasien ${umur} tahun.`;
+
+      resultBox.className = cls;
+      statusPill.textContent = status;
+      resultText.textContent = text;
+
+      const summary = [
+        `Nama: ${name}`,
+        `Jenis kelamin: ${gender === 'P' ? 'Perempuan' : 'Laki-laki'}`,
+        `BB/TB: ${bb} kg / ${tb} cm`,
+        `BMI: ${bmi ? bmi.toFixed(1) : '--'}`,
+        `Frekuensi: ${freq}x/minggu`,
+        `Target: ${target}`,
+        `spKt/V: ${ktv.toFixed(2)}`,
+        `Komorbid: ${riskCount}`,
+        `Pre/Post: ${hasPrePost ? pre.toFixed(1) + ' → ' + post.toFixed(1) + ' mg/dL' : 'tidak diisi'}`
+      ].join('\n');
+
+      $('sharePreview').textContent = summary;
+      window.__lastSummary = summary;
+    }
+
+    function saveLocal(){
+      const payload = {
+        phone: localStorage.getItem('hd_login_phone') || '',
+        summary: window.__lastSummary || '',
+        savedAt: new Date().toISOString()
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'hd_skrining.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function exportPDF(){
+      const text = window.__lastSummary || $('sharePreview').textContent || 'Belum ada hasil.';
+      const w = window.open('', '_blank');
+      w.document.write(`
+        <html><head><title>HD Skrining PDF</title>
+        <style>
+          body{font-family:Arial,sans-serif;padding:24px;color:#111827}
+          .box{border:1px solid #e5e7eb;border-radius:16px;padding:18px;white-space:pre-wrap;line-height:1.65}
+          h1{margin:0 0 10px}
+          .small{color:#6b7280;font-size:12px;margin-top:10px}
+        </style></head><body>
+          <h1>Hasil Skrining HD</h1>
+          <div class="box">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+          <p class="small">Gunakan menu Print browser lalu pilih Save as PDF.</p>
+        </body></html>
+      `);
+      w.document.close();
+      w.focus();
+      w.print();
+    }
+
+    function shareWA(){
+      const number = $('waTo').value.trim();
+      const msg = ($('waMsg').value.trim() || 'Hasil skrining adekuasi HD') + '\n\n' + (window.__lastSummary || $('sharePreview').textContent);
+      const encoded = encodeURIComponent(msg);
+
+      if(number){
+        const url = `https://wa.me/${number}?text=${encoded}`;
+        window.open(url, '_blank');
+      }else{
+        const url = `https://api.whatsapp.com/send?text=${encoded}`;
+        window.open(url, '_blank');
+      }
+    }
+
+    function resetAll(){
+      ['nama','bb','tb','umur','pre','post','durasi','qb','qd','catatan','loginPhone','waTo'].forEach(id => { if($(id)) $(id).value = ''; });
+      ['dm','ht','hf','anemia','malnutrisi','hipotensi','stroke','cad','obesitas','ckd','akses'].forEach(id => { if($(id)) $(id).checked = false; });
+      $('gender').value = 'L';
+      $('cairan').value = 'baik';
+      $('freq').value = '3';
+      $('target').value = '1.4';
+      $('statusPill').textContent = 'Menunggu input';
+      $('score').textContent = '--';
+      $('resultText').textContent = 'Masukkan data pasien dan dialisis untuk melihat hasil.';
+      $('sharePreview').textContent = 'Hasil skrining akan muncul di sini setelah dihitung. Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.';
+      $('resultBox').className = 'resultBox';
+      $('bmiVal').textContent = '--';
+      $('riskVal').textContent = '0';
+      $('prepostVal').textContent = 'Opsional';
+      $('freqVal').textContent = '3x/minggu';
+      window.__lastSummary = '';
+    }
+
+    if(localStorage.getItem('hd_login_phone')){
+      $('loginOverlay').classList.add('hidden');
+      $('app').classList.remove('hidden');
     }
   </script>
 </body>
