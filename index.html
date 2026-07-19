@@ -3,360 +3,509 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aplikasi Cek Adekuasi HD</title>
+  <title>Program HD Rutin - Skrining Adekuasi</title>
   <style>
-    :root {
-      --bg1: #fff7ed;
-      --bg2: #ecfeff;
-      --card: rgba(255,255,255,0.86);
+    :root{
+      --bg: #f6f8ff;
       --text: #1f2937;
       --muted: #6b7280;
-      --primary: #14b8a6;
-      --primary2: #f97316;
-      --good: #22c55e;
-      --warn: #f59e0b;
+      --shadow: 0 18px 40px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --patient: #2563eb;
+      --clinic: #0f766e;
+      --dialysis: #7c3aed;
+      --risk: #dc2626;
+      --result: #f59e0b;
+      --good: #16a34a;
+      --warn: #d97706;
       --bad: #ef4444;
-      --shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
-      --radius: 24px;
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #dbeafe 0, transparent 28%),
+        radial-gradient(circle at top right, #fce7f3 0, transparent 22%),
+        linear-gradient(180deg, #f8fbff, var(--bg));
       color: var(--text);
       min-height: 100vh;
-      background:
-        radial-gradient(circle at top left, #fde68a 0, transparent 28%),
-        radial-gradient(circle at top right, #a7f3d0 0, transparent 24%),
-        linear-gradient(135deg, var(--bg1), var(--bg2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 22px;
+    }
+    .wrap{
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .header{
+      background: linear-gradient(135deg, #1d4ed8, #06b6d4);
+      color: white;
       padding: 24px;
-    }
-    .wrap {
-      width: 100%;
-      max-width: 920px;
-    }
-    .hero {
-      text-align: center;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
       margin-bottom: 18px;
     }
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(28px, 4vw, 44px);
+    .header h1{
+      margin: 0 0 8px;
+      font-size: clamp(26px, 4vw, 40px);
       letter-spacing: -0.03em;
     }
-    .hero p {
-      margin: 10px auto 0;
-      max-width: 720px;
-      color: var(--muted);
+    .header p{
+      margin: 0;
+      max-width: 900px;
       line-height: 1.6;
-      font-size: 15px;
+      opacity: .95;
     }
-    .grid {
+    .grid{
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 18px;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
-    .card {
-      background: var(--card);
-      backdrop-filter: blur(10px);
+    .card{
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(8px);
       border: 1px solid rgba(255,255,255,0.7);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 24px;
+      padding: 20px;
     }
-    .badge {
-      display: inline-flex;
+    .card h2{
+      margin: 0 0 14px;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      display: flex;
       align-items: center;
-      gap: 8px;
-      background: #e0f2fe;
-      color: #0369a1;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 16px;
+      gap: 10px;
     }
-    .field {
-      margin-bottom: 16px;
-    }
-    label {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-    input {
-      width: 100%;
-      padding: 14px 16px;
-      border: 2px solid #e5e7eb;
-      border-radius: 16px;
-      outline: none;
-      font-size: 15px;
-      background: #fff;
-      transition: 0.2s ease;
-    }
-    input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(20,184,166,0.12);
-    }
-    .hint {
-      margin-top: 8px;
+    .sub-patient{ border-top: 6px solid var(--patient); }
+    .sub-clinic{ border-top: 6px solid var(--clinic); }
+    .sub-dialysis{ border-top: 6px solid var(--dialysis); }
+    .sub-risk{ border-top: 6px solid var(--risk); }
+    .sub-result{ border-top: 6px solid var(--result); }
+
+    .section-note{
       font-size: 12px;
       color: var(--muted);
+      margin-bottom: 14px;
       line-height: 1.5;
     }
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 20px;
+    .field{
+      margin-bottom: 14px;
     }
-    button {
-      border: none;
-      cursor: pointer;
-      padding: 14px 18px;
-      border-radius: 16px;
-      font-weight: 800;
-      font-size: 15px;
-      transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-    button:hover { transform: translateY(-1px); }
-    .primary {
-      background: linear-gradient(135deg, var(--primary), #0ea5e9);
-      color: white;
-      box-shadow: 0 12px 24px rgba(20,184,166,0.22);
-    }
-    .secondary {
-      background: #f3f4f6;
-      color: #111827;
-    }
-    .result {
-      display: grid;
-      gap: 14px;
-    }
-    .scoreBox {
-      padding: 20px;
-      border-radius: 22px;
-      color: white;
-      background: linear-gradient(135deg, #64748b, #334155);
-      min-height: 170px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      transition: 0.25s ease;
-    }
-    .scoreTop {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 8px;
-    }
-    .scoreTitle {
-      font-size: 15px;
-      opacity: 0.9;
+    label{
+      display:block;
       font-weight: 700;
-    }
-    .score {
-      font-size: clamp(44px, 6vw, 58px);
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      line-height: 1;
-      margin: 6px 0 6px;
-    }
-    .status {
-      display: inline-flex;
-      width: fit-content;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-weight: 800;
-      font-size: 13px;
-      background: rgba(255,255,255,0.18);
-    }
-    .detail {
-      background: #fff;
-      border-radius: 20px;
-      padding: 18px;
-      border: 1px solid #e5e7eb;
-    }
-    .detail h3 {
-      margin: 0 0 8px;
-      font-size: 16px;
-    }
-    .detail p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.6;
+      margin-bottom: 7px;
       font-size: 14px;
     }
-    .miniList {
-      margin: 0;
+    input, select{
+      width:100%;
+      padding: 13px 14px;
+      border-radius: 16px;
+      border: 2px solid #e5e7eb;
+      background: white;
+      font-size: 14px;
+      outline: none;
+      transition: .2s ease;
+    }
+    input:focus, select:focus{
+      border-color: #2563eb;
+      box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .chips{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .chip{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .chip input{ width:auto; margin:0; }
+    .actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    button{
+      border:none;
+      border-radius: 16px;
+      padding: 13px 18px;
+      font-weight: 800;
+      cursor:pointer;
+      font-size: 14px;
+      transition: transform .12s ease, box-shadow .2s ease;
+    }
+    button:hover{ transform: translateY(-1px); }
+    .btn-primary{
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      color:white;
+      box-shadow: 0 12px 22px rgba(37,99,235,.22);
+    }
+    .btn-secondary{
+      background:#eef2ff;
+      color:#1e3a8a;
+    }
+
+    .result-box{
+      border-radius: 22px;
+      padding: 18px;
+      color:white;
+      background: linear-gradient(135deg, #64748b, #334155);
+      min-height: 180px;
+      display:flex;
+      flex-direction: column;
+      justify-content:center;
+    }
+    .status{
+      display:inline-flex;
+      width:fit-content;
+      padding: 8px 14px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+      background: rgba(255,255,255,.18);
+      margin-bottom: 8px;
+    }
+    .score{
+      font-size: clamp(42px, 6vw, 58px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin: 4px 0 8px;
+    }
+    .result-text{
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: .98;
+    }
+    .panel{
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 14px;
+    }
+    .panel h3{
+      margin:0 0 8px;
+      font-size: 16px;
+    }
+    .panel ul{
+      margin:0;
       padding-left: 18px;
       color: var(--muted);
       line-height: 1.7;
       font-size: 14px;
     }
-    .footerNote {
-      margin-top: 14px;
-      text-align: center;
-      color: var(--muted);
+    .help{
       font-size: 12px;
-      line-height: 1.5;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.45;
     }
-    .glow-good { background: linear-gradient(135deg, #16a34a, #22c55e) !important; }
-    .glow-warn { background: linear-gradient(135deg, #d97706, #f59e0b) !important; }
-    .glow-bad { background: linear-gradient(135deg, #dc2626, #ef4444) !important; }
-    @media (max-width: 820px) {
-      .grid { grid-template-columns: 1fr; }
-      .card { padding: 20px; }
+    .full{
+      grid-column: 1 / -1;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      background:#f1f5f9;
+      color:#334155;
+      margin-bottom: 12px;
+    }
+    .good{ background: linear-gradient(135deg, #16a34a, #22c55e) !important; }
+    .warn{ background: linear-gradient(135deg, #d97706, #f59e0b) !important; }
+    .bad{ background: linear-gradient(135deg, #dc2626, #ef4444) !important; }
+    @media (max-width: 860px){
+      .grid{ grid-template-columns: 1fr; }
+      .row{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="hero">
-      <h1>✨ Cek Adekuasi HD</h1>
-      <p>Aplikasi sederhana untuk membantu pasien dan keluarga melihat apakah hemodialisis sudah masuk kategori baik berdasarkan <b>spKt/V</b>. Target yang dipakai di aplikasi ini adalah <b>1,4</b>.</p>
+    <div class="header">
+      <h1>Program Hemodialisis Rutin</h1>
+      <p>Alat skrining edukasi untuk menilai apakah program HD rutin sudah cenderung adekuat dengan melihat data pasien, komorbid, dan hasil dialisis. Fokus utama tetap pada <b>spKt/V</b> dengan target 1,4, tetapi hasil juga diberi konteks klinis agar lebih mudah dibedakan per topik.</p>
     </div>
 
     <div class="grid">
-      <div class="card">
-        <div class="badge">💧 Input hasil hemodialisis</div>
+      <div class="card sub-patient">
+        <h2>👤 Data Pasien</h2>
+        <div class="section-note">Bagian ini dipakai untuk identitas dasar dan perkiraan ukuran tubuh.</div>
 
-        <div class="field">
-          <label for="ureaPre">Ureum pre-HD (mg/dL)</label>
-          <input id="ureaPre" type="number" min="0" step="0.1" placeholder="Contoh: 80" />
-          <div class="hint">Isi nilai ureum sebelum hemodialisis.</div>
+        <div class="row">
+          <div class="field">
+            <label>Nama / Kode Pasien</label>
+            <input id="nama" type="text" placeholder="Contoh: P001" />
+          </div>
+          <div class="field">
+            <label>Jenis Kelamin</label>
+            <select id="gender">
+              <option value="L">Laki-laki</option>
+              <option value="P">Perempuan</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Berat Badan (kg)</label>
+            <input id="bb" type="number" min="1" step="0.1" placeholder="Contoh: 60" />
+            <div class="help">Gunakan BB kering bila tersedia.</div>
+          </div>
+          <div class="field">
+            <label>Tinggi Badan (cm)</label>
+            <input id="tb" type="number" min="1" step="0.1" placeholder="Contoh: 160" />
+            <div class="help">Dipakai untuk gambaran ukuran tubuh.</div>
+          </div>
         </div>
 
         <div class="field">
-          <label for="ureaPost">Ureum post-HD (mg/dL)</label>
-          <input id="ureaPost" type="number" min="0" step="0.1" placeholder="Contoh: 20" />
-          <div class="hint">Isi nilai ureum sesudah hemodialisis.</div>
-        </div>
-
-        <div class="field">
-          <label for="duration">Durasi HD (menit)</label>
-          <input id="duration" type="number" min="1" step="1" placeholder="Contoh: 240" />
-          <div class="hint">Dipakai sebagai informasi tambahan dan peringatan jika sesi sangat singkat.</div>
-        </div>
-
-        <div class="field">
-          <label for="weight">Berat badan pasca-HD / berat kering (kg)</label>
-          <input id="weight" type="number" min="1" step="0.1" placeholder="Contoh: 60" />
-          <div class="hint">Dipakai sebagai pendekatan sederhana untuk estimasi awal.</div>
-        </div>
-
-        <div class="field">
-          <label for="qd">Aliran dialysate Qd (mL/menit)</label>
-          <input id="qd" type="number" min="0" step="1" placeholder="Contoh: 500" />
-          <div class="hint">Opsional, boleh dikosongkan.</div>
-        </div>
-
-        <div class="actions">
-          <button class="primary" onclick="calculateKtV()">Hitung spKt/V</button>
-          <button class="secondary" onclick="resetForm()">Reset</button>
+          <label>Umur (tahun)</label>
+          <input id="umur" type="number" min="1" step="1" placeholder="Contoh: 55" />
         </div>
       </div>
 
-      <div class="result">
-        <div id="scoreBox" class="scoreBox">
-          <div class="scoreTop">
-            <div class="scoreTitle">Hasil penilaian</div>
-            <div id="statusPill" class="status">Menunggu input</div>
-          </div>
-          <div id="scoreValue" class="score">--</div>
-          <div id="scoreText">Masukkan data untuk melihat hasil.</div>
+      <div class="card sub-clinic">
+        <h2>🏥 Data Klinis</h2>
+        <div class="section-note">Bagian ini membantu memberi konteks apakah pasien berisiko tinggi atau stabil.</div>
+
+        <div class="chips">
+          <label class="chip"><input type="checkbox" id="dm"> Diabetes</label>
+          <label class="chip"><input type="checkbox" id="ht"> Hipertensi</label>
+          <label class="chip"><input type="checkbox" id="hf"> Gagal jantung</label>
+          <label class="chip"><input type="checkbox" id="anemia"> Anemia berat</label>
+          <label class="chip"><input type="checkbox" id="malnutrisi"> Malnutrisi</label>
+          <label class="chip"><input type="checkbox" id="hipotensi"> Hipotensi saat HD</label>
         </div>
 
-        <div class="detail">
-          <h3>Interpretasi cepat</h3>
-          <ul class="miniList" id="tipsList">
-            <li>Hijau: spKt/V ≥ 1,4</li>
-            <li>Kuning: 1,2–1,39</li>
-            <li>Merah: < 1,2</li>
+        <div class="field" style="margin-top:14px;">
+          <label>Keluhan utama saat ini</label>
+          <input id="keluhan" type="text" placeholder="Contoh: sesak, bengkak, lemas" />
+        </div>
+
+        <div class="field">
+          <label>Status cairan</label>
+          <select id="cairan">
+            <option value="baik">Terkontrol</option>
+            <option value="sedang">Perlu pantau</option>
+            <option value="buruk">Overload / bengkak</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card sub-dialysis">
+        <h2>💧 Data Dialisis</h2>
+        <div class="section-note">Bagian ini berhubungan langsung dengan adekuasi sesi hemodialisis.</div>
+
+        <div class="row">
+          <div class="field">
+            <label>Ureum pre-HD (mg/dL)</label>
+            <input id="pre" type="number" min="0" step="0.1" placeholder="Contoh: 80" />
+          </div>
+          <div class="field">
+            <label>Ureum post-HD (mg/dL)</label>
+            <input id="post" type="number" min="0" step="0.1" placeholder="Contoh: 20" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>Durasi HD (menit)</label>
+            <input id="durasi" type="number" min="1" step="1" placeholder="Contoh: 240" />
+          </div>
+          <div class="field">
+            <label>Qb (mL/menit)</label>
+            <input id="qb" type="number" min="0" step="1" placeholder="Contoh: 250" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Qd (mL/menit)</label>
+          <input id="qd" type="number" min="0" step="1" placeholder="Contoh: 500" />
+        </div>
+      </div>
+
+      <div class="card sub-risk">
+        <h2>🚦 Komorbid & Risiko</h2>
+        <div class="section-note">Komorbid tidak menentukan Kt/V, tetapi membantu menilai kebutuhan evaluasi program lebih ketat.</div>
+
+        <div class="chips">
+          <label class="chip"><input type="checkbox" id="stroke"> Riwayat stroke</label>
+          <label class="chip"><input type="checkbox" id="cad"> Penyakit jantung koroner</label>
+          <label class="chip"><input type="checkbox" id="obesitas"> Obesitas</label>
+          <label class="chip"><input type="checkbox" id="ckd"> CKD berat / lama HD</label>
+          <label class="chip"><input type="checkbox" id="akses"> Masalah akses vaskular</label>
+        </div>
+
+        <div class="field" style="margin-top:14px;">
+          <label>Frekuensi HD per minggu</label>
+          <select id="freq">
+            <option value="2">2 kali/minggu</option>
+            <option value="3" selected>3 kali/minggu</option>
+            <option value="4">4 kali/minggu</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Target klinis yang dipakai</label>
+          <select id="target">
+            <option value="1.4" selected>spKt/V 1,4</option>
+            <option value="1.2">spKt/V 1,2</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card sub-result full">
+        <h2>📊 Hasil Program</h2>
+        <div class="section-note">Hasil di bawah ini menunjukkan skrining awal, bukan keputusan akhir klinis.</div>
+
+        <div class="result-box" id="resultBox">
+          <div class="status" id="statusPill">Menunggu input</div>
+          <div class="score" id="score">--</div>
+          <div class="result-text" id="resultText">Masukkan data pasien dan dialisis untuk melihat hasil.</div>
+        </div>
+
+        <div class="panel">
+          <h3>Interpretasi</h3>
+          <ul>
+            <li>Hijau: hasil memenuhi target yang dipilih.</li>
+            <li>Kuning: hasil cukup, tetapi perlu evaluasi program.</li>
+            <li>Merah: hasil di bawah batas yang dipilih.</li>
+            <li>Komorbid berat dan masalah akses vaskular akan menambah alasan untuk evaluasi dokter.</li>
           </ul>
         </div>
 
-        <div class="detail">
-          <h3>Catatan penting</h3>
-          <p>Aplikasi ini hanya alat edukasi. Hasil nyata tetap perlu dikonfirmasi oleh dokter atau tim HD karena teknik pengambilan sampel, akses vaskular, dan kondisi pasien bisa memengaruhi nilai Kt/V.</p>
+        <div class="actions">
+          <button class="btn-primary" onclick="proses()">Hitung Skrining</button>
+          <button class="btn-secondary" onclick="resetForm()">Reset</button>
         </div>
       </div>
-    </div>
-
-    <div class="footerNote">
-      Dirancang untuk edukasi pasien hemodialisis • sederhana, ceria, dan mudah dipakai.
     </div>
   </div>
 
   <script>
-    function calculateKtV() {
-      const pre = parseFloat(document.getElementById('ureaPre').value);
-      const post = parseFloat(document.getElementById('ureaPost').value);
-      const duration = parseFloat(document.getElementById('duration').value);
-      const weight = parseFloat(document.getElementById('weight').value);
-      const qd = parseFloat(document.getElementById('qd').value);
+    function val(id){ return document.getElementById(id); }
 
-      const scoreBox = document.getElementById('scoreBox');
-      const scoreValue = document.getElementById('scoreValue');
-      const scoreText = document.getElementById('scoreText');
-      const statusPill = document.getElementById('statusPill');
+    function proses(){
+      const pre = parseFloat(val('pre').value);
+      const post = parseFloat(val('post').value);
+      const durasi = parseFloat(val('durasi').value);
+      const bb = parseFloat(val('bb').value);
+      const tb = parseFloat(val('tb').value);
+      const qb = parseFloat(val('qb').value) || 0;
+      const qd = parseFloat(val('qd').value) || 0;
+      const target = parseFloat(val('target').value);
 
-      if ([pre, post, duration, weight].some(v => Number.isNaN(v) || v <= 0)) {
-        scoreBox.className = 'scoreBox';
-        scoreValue.textContent = '--';
+      const gender = val('gender').value;
+      const freq = parseInt(val('freq').value, 10);
+
+      const flags = [
+        val('dm').checked, val('ht').checked, val('hf').checked,
+        val('anemia').checked, val('malnutrisi').checked, val('hipotensi').checked,
+        val('stroke').checked, val('cad').checked, val('obesitas').checked,
+        val('ckd').checked, val('akses').checked
+      ];
+      const riskCount = flags.filter(Boolean).length;
+
+      const resultBox = val('resultBox');
+      const statusPill = val('statusPill');
+      const scoreEl = val('score');
+      const resultText = val('resultText');
+
+      if ([pre, post, durasi, bb, tb].some(v => Number.isNaN(v) || v <= 0)) {
+        resultBox.className = 'result-box';
         statusPill.textContent = 'Input belum lengkap';
-        scoreText.textContent = 'Isi semua data utama: ureum pre-HD, ureum post-HD, durasi, dan berat badan.';
+        scoreEl.textContent = '--';
+        resultText.textContent = 'Isi minimal ureum pre-HD, ureum post-HD, durasi, BB, dan TB.';
         return;
       }
 
       if (post >= pre) {
-        scoreBox.className = 'scoreBox glow-bad';
-        scoreValue.textContent = '0.00';
-        statusPill.textContent = 'Periksa data';
-        scoreText.textContent = 'Nilai ureum post-HD seharusnya lebih rendah dari pre-HD. Silakan cek lagi input atau pengambilan sampel.';
+        resultBox.className = 'result-box bad';
+        statusPill.textContent = 'Data perlu dicek';
+        scoreEl.textContent = '0.00';
+        resultText.textContent = 'Ureum post-HD seharusnya lebih rendah dari pre-HD. Silakan periksa lagi data input atau cara pengambilan sampel.';
         return;
       }
 
       const ratio = Math.max(0.01, Math.min(0.99, post / pre));
-      const t = duration / 60;
-      const v = Math.max(10, weight * 0.58);
-      let k = qd && qd > 0 ? 1.2 + (qd / 800) : 1.2;
-      const ktv = (k * t * 0.9) / v + (-Math.log(ratio)) * 0.9;
-      const fixed = Math.max(0, ktv);
-      const rounded = fixed.toFixed(2);
+      const sexFactor = gender === 'P' ? 1.05 : 1.0;
+      const sizeFactor = Math.max(0.85, Math.min(1.2, 60 / Math.max(bb, 30)));
+      const heightFactor = Math.max(0.9, Math.min(1.15, 165 / Math.max(tb, 120)));
+      const timeFactor = durasi / 240;
+      const clearanceFactor = 1 + ((qb / 300) * 0.08) + ((qd / 500) * 0.05);
+      const base = (-Math.log(ratio)) * 0.95;
+      const adjusted = base * timeFactor * clearanceFactor * sexFactor * sizeFactor * heightFactor;
+      const ktv = Math.max(0, adjusted);
+      scoreEl.textContent = ktv.toFixed(2);
 
-      scoreValue.textContent = rounded;
+      let status = 'Perlu evaluasi';
+      let colorClass = 'warn';
+      let text = 'Hasil cukup, tetapi program dialisis masih perlu ditinjau bersama tim HD.';
 
-      if (fixed >= 1.4) {
-        scoreBox.className = 'scoreBox glow-good';
-        statusPill.textContent = 'Bagus';
-        scoreText.textContent = 'Hasil ini masuk kategori baik sesuai target aplikasi. Tetap lihat juga tekanan darah, cairan, dan keluhan pasien.';
-      } else if (fixed >= 1.2) {
-        scoreBox.className = 'scoreBox glow-warn';
-        statusPill.textContent = 'Cukup, perlu pantau';
-        scoreText.textContent = 'Hasil ini masih di atas batas minimal, tetapi belum masuk target 1,4. Pertimbangkan evaluasi durasi, aliran darah, dan akses vaskular.';
+      if (ktv >= target) {
+        status = 'Memenuhi target';
+        colorClass = 'good';
+        text = 'Hasil memenuhi target yang dipilih. Tetap perhatikan keluhan, cairan, dan komorbid pasien.';
+      } else if (ktv >= 1.2) {
+        status = 'Cukup, pantau';
+        colorClass = 'warn';
+        text = 'Hasil masih di atas batas minimal umum, tetapi belum masuk target program yang dipilih.';
       } else {
-        scoreBox.className = 'scoreBox glow-bad';
-        statusPill.textContent = 'Kurang';
-        scoreText.textContent = 'Hasil ini di bawah batas minimal. Sebaiknya tim HD mengevaluasi ulang resep dialisis dan faktor penyebabnya.';
+        status = 'Di bawah target';
+        colorClass = 'bad';
+        text = 'Hasil di bawah batas yang dipilih. Evaluasi durasi, akses vaskular, aliran darah, dan komorbid perlu dipertimbangkan.';
       }
 
-      if (duration < 180) {
-        scoreText.textContent += ' Durasi HD terlihat singkat, sehingga hasil bisa kurang optimal.';
+      if (riskCount >= 3) {
+        text += ' Pasien juga memiliki beberapa komorbid sehingga evaluasi klinis sebaiknya lebih ketat.';
       }
+      if (freq <= 2) {
+        text += ' Frekuensi 2 kali per minggu bisa memerlukan penilaian yang lebih hati-hati pada beberapa pasien.';
+      }
+      if (durasi < 180) {
+        text += ' Durasi HD terlihat singkat.';
+      }
+      if (val('akses').checked) {
+        text += ' Masalah akses vaskular dapat menurunkan kualitas sesi.';
+      }
+
+      resultBox.className = 'result-box ' + colorClass;
+      statusPill.textContent = status;
+      resultText.textContent = text;
     }
 
-    function resetForm() {
-      ['ureaPre','ureaPost','duration','weight','qd'].forEach(id => document.getElementById(id).value = '');
-      document.getElementById('scoreBox').className = 'scoreBox';
-      document.getElementById('scoreValue').textContent = '--';
-      document.getElementById('statusPill').textContent = 'Menunggu input';
-      document.getElementById('scoreText').textContent = 'Masukkan data untuk melihat hasil.';
+    function resetForm(){
+      ['nama','bb','tb','umur','pre','post','durasi','qb','qd'].forEach(id => val(id).value = '');
+      ['dm','ht','hf','anemia','malnutrisi','hipotensi','stroke','cad','obesitas','ckd','akses'].forEach(id => val(id).checked = false);
+      val('gender').value = 'L';
+      val('cairan').value = 'baik';
+      val('freq').value = '3';
+      val('target').value = '1.4';
+      val('statusPill').textContent = 'Menunggu input';
+      val('score').textContent = '--';
+      val('resultText').textContent = 'Masukkan data pasien dan dialisis untuk melihat hasil.';
+      val('resultBox').className = 'result-box';
     }
   </script>
 </body>
