@@ -3,200 +3,179 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Renal HD Care - Skrining Adekuasi</title>
+  <title>Sunset Renal HD Care</title>
   <style>
     :root{
-      --bg1:#f0f7ff;
-      --bg2:#f8fbff;
-      --text:#0f172a;
-      --muted:#64748b;
-      --line:#dbe2ea;
-      --card:#ffffff;
-      --shadow:0 18px 50px rgba(15,23,42,.12);
-      --radius:24px;
-      --primary:#2563eb;
-      --teal:#14b8a6;
-      --purple:#7c3aed;
-      --pink:#ec4899;
-      --orange:#f97316;
+      --bg1:#fff7ed;
+      --bg2:#ffedd5;
+      --bg3:#fef3c7;
+      --text:#1f2937;
+      --muted:#7c6f63;
+      --line:rgba(255,255,255,.55);
+      --card:rgba(255,255,255,.86);
+      --shadow:0 20px 50px rgba(124,58,237,.10);
+      --radius:26px;
+      --primary:#f97316;
+      --primary2:#fb7185;
+      --sun:#f59e0b;
+      --gold:#fbbf24;
+      --sky:#0ea5e9;
+      --violet:#7c3aed;
       --green:#16a34a;
-      --yellow:#f59e0b;
       --red:#ef4444;
+      --amber:#d97706;
+      --teal:#14b8a6;
     }
     *{box-sizing:border-box}
     html,body{
       margin:0;
+      min-height:100%;
       font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       color:var(--text);
-      min-height:100%;
       background:
-        radial-gradient(circle at top left, rgba(37,99,235,.14), transparent 26%),
-        radial-gradient(circle at top right, rgba(236,72,153,.12), transparent 20%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
+        radial-gradient(circle at 18% 10%, rgba(251,191,36,.34) 0, transparent 24%),
+        radial-gradient(circle at 86% 18%, rgba(251,113,133,.22) 0, transparent 24%),
+        radial-gradient(circle at 50% 100%, rgba(14,165,233,.14) 0, transparent 22%),
+        linear-gradient(180deg, var(--bg1), var(--bg2) 56%, var(--bg3));
     }
-    body{padding:16px}
-    .app{max-width:1320px;margin:0 auto}
+    body{padding:14px}
+    .app{max-width:1360px;margin:0 auto}
     .topbar{
-      background: linear-gradient(135deg, #0f172a, #1d4ed8 56%, #06b6d4);
-      color:#fff;
+      position:relative;overflow:hidden;
       border-radius:30px;
       padding:22px;
+      color:#fff;
+      background:linear-gradient(135deg,#ff7a18,#f97316 32%,#fb7185 72%,#0ea5e9);
       box-shadow:var(--shadow);
-      overflow:hidden;
-      position:relative;
     }
     .topbar::after{
       content:"";
       position:absolute;
-      width:300px;height:300px;border-radius:50%;
       right:-120px;bottom:-140px;
-      background:rgba(255,255,255,.08);
+      width:320px;height:320px;border-radius:50%;
+      background:rgba(255,255,255,.10);
     }
     .brand{
-      display:flex;gap:14px;align-items:flex-start;position:relative;z-index:1;flex-wrap:wrap
+      position:relative;z-index:1;
+      display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start
     }
-    .iconWrap{
-      width:58px;height:58px;border-radius:18px;
-      display:grid;place-items:center;
-      background:rgba(255,255,255,.16);
-      border:1px solid rgba(255,255,255,.18);
-      flex:0 0 auto
+    .logo{
+      width:60px;height:60px;border-radius:20px;
+      background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.22);
+      display:grid;place-items:center;flex:0 0 auto
     }
-    .iconWrap svg{width:34px;height:34px;display:block}
+    .logo svg{width:36px;height:36px}
     .title h1{
-      margin:0;
-      font-size:clamp(24px,3.5vw,40px);
-      letter-spacing:-.04em
+      margin:0;font-size:clamp(24px,4vw,42px);letter-spacing:-.04em
     }
     .title p{
-      margin:8px 0 0;
-      max-width:980px;
-      line-height:1.6;
-      opacity:.95;
-      font-size:14px
+      margin:8px 0 0;max-width:1020px;line-height:1.6;
+      font-size:14px;opacity:.95
     }
-    .tagRow{
-      display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;position:relative;z-index:1
-    }
+    .tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;position:relative;z-index:1}
     .tag{
       display:inline-flex;align-items:center;gap:8px;
       padding:8px 12px;border-radius:999px;
-      background:rgba(255,255,255,.12);
+      background:rgba(255,255,255,.16);
       border:1px solid rgba(255,255,255,.18);
       font-size:12px;font-weight:800
     }
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
     .full{grid-column:1/-1}
     .card{
-      background:rgba(255,255,255,.94);
-      border:1px solid rgba(255,255,255,.75);
+      background:var(--card);
+      backdrop-filter:blur(10px);
+      border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
       padding:18px;
-      backdrop-filter: blur(10px);
     }
     .head{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px
+      display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px
     }
-    .hTitle{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:900;letter-spacing:-.02em;margin:0}
+    .hTitle{display:flex;align-items:center;gap:10px;margin:0;font-size:18px;font-weight:950;letter-spacing:-.02em}
     .pill{
       padding:7px 11px;border-radius:999px;
-      background:#f8fafc;border:1px solid var(--line);
-      color:#334155;font-size:12px;font-weight:800
+      background:#fff7ed;border:1px solid rgba(249,115,22,.16);
+      font-size:12px;font-weight:900;color:#9a3412
     }
     .note{margin:0 0 14px;color:var(--muted);line-height:1.55;font-size:13px}
-    .sub-patient{border-top:6px solid var(--primary)}
+    .sub-patient{border-top:6px solid var(--sky)}
     .sub-vital{border-top:6px solid var(--teal)}
-    .sub-dialysis{border-top:6px solid var(--purple)}
-    .sub-comorb{border-top:6px solid var(--pink)}
-    .sub-result{border-top:6px solid var(--orange)}
+    .sub-dialysis{border-top:6px solid var(--violet)}
+    .sub-comorb{border-top:6px solid var(--primary2)}
+    .sub-result{border-top:6px solid var(--sun)}
     .sub-share{border-top:6px solid var(--green)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .field{margin-bottom:12px}
     label{display:block;font-size:13px;font-weight:900;margin-bottom:7px}
     input,select,textarea{
       width:100%;
-      border:1.8px solid #d7e0ea;
+      border:1.8px solid #e5d9c9;
+      background:#fff;
       border-radius:16px;
       padding:13px 14px;
       font-size:14px;
-      background:#fff;
-      color:var(--text);
       outline:none;
       transition:.2s ease;
+      color:var(--text);
     }
     textarea{min-height:92px;resize:vertical}
     input:focus,select:focus,textarea:focus{
       border-color:var(--primary);
-      box-shadow:0 0 0 4px rgba(37,99,235,.11)
+      box-shadow:0 0 0 4px rgba(249,115,22,.12)
     }
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .chips{display:flex;flex-wrap:wrap;gap:10px}
     .chip{
       display:flex;align-items:center;gap:8px;
       padding:10px 12px;border-radius:999px;
-      border:1px solid var(--line);background:#fff;
-      font-size:13px;font-weight:800;color:#334155
+      border:1px solid #eadfcf;background:#fff;
+      font-size:13px;font-weight:800;color:#4b5563
     }
     .chip input{width:auto;margin:0}
     .help{margin-top:6px;font-size:12px;color:var(--muted);line-height:1.45}
     .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
     button{
-      border:none;
-      border-radius:16px;
-      padding:13px 16px;
-      font-weight:900;
-      font-size:14px;
-      cursor:pointer;
+      border:none;cursor:pointer;border-radius:16px;
+      padding:13px 16px;font-size:14px;font-weight:950;
       display:inline-flex;align-items:center;gap:9px;
       transition:.15s ease;
       box-shadow:0 10px 20px rgba(15,23,42,.08)
     }
     button:hover{transform:translateY(-1px)}
-    .btn-primary{background:linear-gradient(135deg,var(--primary),#06b6d4);color:#fff}
-    .btn-green{background:linear-gradient(135deg,var(--green),#22c55e);color:#fff}
-    .btn-dark{background:#0f172a;color:#fff}
-    .btn-light{background:#f8fafc;color:#0f172a;border:1px solid var(--line)}
-    .btn-indigo{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
-    .btn-rose{background:linear-gradient(135deg,#ec4899,#fb7185);color:#fff}
+    .btn-primary{background:linear-gradient(135deg,#f97316,#fb7185);color:#fff}
+    .btn-green{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff}
+    .btn-dark{background:#1f2937;color:#fff}
+    .btn-light{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa}
+    .btn-blue{background:linear-gradient(135deg,#0ea5e9,#2563eb);color:#fff}
+    .btn-violet{background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:#fff}
     .resultBox{
       border-radius:24px;
       padding:18px;
       min-height:190px;
       color:#fff;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      gap:8px;
-      background:linear-gradient(135deg,#334155,#0f172a);
+      display:flex;flex-direction:column;justify-content:center;gap:8px;
+      background:linear-gradient(135deg,#3b2f2f,#0f172a)
     }
     .status{
       width:fit-content;
-      padding:7px 12px;
-      border-radius:999px;
+      padding:7px 12px;border-radius:999px;
       background:rgba(255,255,255,.16);
-      font-size:12px;
-      font-weight:900
+      font-size:12px;font-weight:900
     }
     .score{
       font-size:clamp(44px,5vw,60px);
-      font-weight:950;
-      letter-spacing:-.05em;
-      line-height:1;
-      margin:0
+      font-weight:950;line-height:1;letter-spacing:-.05em;margin:0
     }
     .resultText{font-size:14px;line-height:1.65;opacity:.98}
     .good{background:linear-gradient(135deg,#16a34a,#22c55e)!important}
     .warn{background:linear-gradient(135deg,#d97706,#f59e0b)!important}
     .bad{background:linear-gradient(135deg,#dc2626,#ef4444)!important}
-    .summary{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:12px;
-      margin-top:14px
-    }
+    .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
     .metric{
       background:#fff;
-      border:1px solid var(--line);
+      border:1px solid #eedec7;
       border-radius:18px;
       padding:14px
     }
@@ -204,37 +183,37 @@
     .metric .v{margin-top:6px;font-size:20px;font-weight:950;letter-spacing:-.02em}
     .metric .s{margin-top:4px;font-size:12px;color:var(--muted);line-height:1.45}
     .preview{
-      background:#f8fafc;
-      border:1px dashed #cbd5e1;
+      background:#fffaf3;
+      border:1px dashed #e7c89c;
       border-radius:18px;
       padding:14px;
-      color:#334155;
+      color:#4b5563;
       font-size:13px;
       line-height:1.6;
       white-space:pre-wrap
     }
     .loginOverlay{
       position:fixed;inset:0;z-index:9999;
-      background:rgba(15,23,42,.52);
-      backdrop-filter: blur(8px);
+      background:rgba(15,23,42,.48);
+      backdrop-filter:blur(8px);
       display:flex;align-items:center;justify-content:center;
-      padding:16px;
+      padding:16px
     }
     .loginCard{
       width:min(480px,100%);
       background:#fff;
       border-radius:26px;
       padding:22px;
-      box-shadow:var(--shadow);
+      box-shadow:var(--shadow)
     }
     .loginCard h2{margin:0 0 8px;font-size:24px}
     .loginCard p{margin:0 0 14px;color:var(--muted);line-height:1.55;font-size:14px}
-    .footer{margin:16px 0 6px;text-align:center;color:#64748b;font-size:12px;line-height:1.55}
+    .footer{margin:16px 0 6px;text-align:center;color:#8c6f55;font-size:12px;line-height:1.55}
     .hidden{display:none!important}
-    @media (max-width: 1024px){
+    @media (max-width:1024px){
       .grid,.summary,.row{grid-template-columns:1fr}
     }
-    @media (max-width: 640px){
+    @media (max-width:640px){
       body{padding:10px}
       .topbar{padding:18px;border-radius:22px}
       .card{padding:15px}
@@ -246,7 +225,7 @@
   <div class="loginOverlay" id="loginOverlay">
     <div class="loginCard">
       <h2>Masuk dengan Nomor HP</h2>
-      <p>Masukkan nomor HP untuk membuka aplikasi. Login ini bersifat lokal untuk prototype dan demo.</p>
+      <p>Masukkan nomor HP untuk membuka aplikasi. Login ini bersifat lokal untuk prototype.</p>
       <div class="field">
         <label>Nomor HP</label>
         <input id="loginPhone" type="tel" placeholder="08123456789" />
@@ -261,26 +240,25 @@
   <div class="app hidden" id="app">
     <div class="topbar">
       <div class="brand">
-        <div class="iconWrap" aria-hidden="true">
+        <div class="logo" aria-hidden="true">
           <svg viewBox="0 0 64 64" fill="none">
-            <path d="M27 8c-6 6-8 12-8 20 0 10 7 18 17 18 7 0 12-4 12-10 0-5-4-8-9-8-4 0-7 2-8 5-1 3-1 6 1 9" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M20 49c-6-2-10-7-10-14 0-9 5-15 14-22" stroke="white" stroke-width="4" stroke-linecap="round"/>
-            <path d="M45 16c5 3 9 8 11 14" stroke="white" stroke-width="4" stroke-linecap="round"/>
-            <path d="M49 38h7" stroke="white" stroke-width="4" stroke-linecap="round"/>
-            <path d="M52.5 34.5V41.5" stroke="white" stroke-width="4" stroke-linecap="round"/>
+            <path d="M26 7c-5.5 5.4-8 11.3-8 19.2 0 10.8 7.4 18.8 17.2 18.8 7 0 12-4.2 12-10.2 0-5.2-4.2-8.8-9.5-8.8-4.8 0-8 2.8-9 6.1-1 3.6-.3 7.4 1.9 10.2" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20 49c-5.5-2.2-9.2-7.3-9.2-13.8 0-8.8 5.1-15.7 13.8-22.4" stroke="white" stroke-width="4" stroke-linecap="round"/>
+            <path d="M45.5 16.3c4.8 3 8.7 7.8 10.8 13.4" stroke="white" stroke-width="4" stroke-linecap="round"/>
+            <path d="M50 38h7" stroke="white" stroke-width="4" stroke-linecap="round"/>
+            <path d="M53.5 34.5v7" stroke="white" stroke-width="4" stroke-linecap="round"/>
           </svg>
         </div>
         <div class="title">
-          <h1>Renal HD Care</h1>
-          <p>Skrining program hemodialisis rutin dengan tampilan modern, responsif, dan lengkap untuk aset medis. Pre/post ureum tetap opsional, tetapi bila ada akan ikut dihitung dan ditampilkan bersama tanda vital, BB kering, QB, QD, dan UFG.</p>
+          <h1>Sunset Renal HD Care</h1>
+          <p>Warna sore untuk skrining adekuasi dan program hemodialisis rutin. Pre/post ureum tetap opsional, tetapi program HD juga dinilai dari BB sekarang, BB kering, tekanan darah, nadi, hidrasi, komorbid, QB, QD, dan UFG.</p>
         </div>
       </div>
-      <div class="tagRow">
-        <div class="tag">🩺 Medical renal</div>
+      <div class="tags">
+        <div class="tag">🌅 Warna sore</div>
+        <div class="tag">🩺 Renal medical</div>
         <div class="tag">📱 Mobile & iPhone</div>
-        <div class="tag">🖥️ PC ready</div>
-        <div class="tag">📄 PDF</div>
-        <div class="tag">💬 WhatsApp</div>
+        <div class="tag">🖥️ PC</div>
       </div>
     </div>
 
@@ -288,7 +266,7 @@
       <div class="card sub-patient">
         <div class="head">
           <h2 class="hTitle">👤 Data Pasien</h2>
-          <div class="pill">Identitas dasar</div>
+          <div class="pill">Identitas</div>
         </div>
         <p class="note">Bagian ini dipakai untuk gambaran pasien dan ukuran tubuh.</p>
 
@@ -325,7 +303,6 @@
           <div class="field">
             <label>BB Kering (kg)</label>
             <input id="bbDry" type="number" min="1" step="0.1" placeholder="58.0" />
-            <div class="help">BB kering dipakai untuk evaluasi volume dan target program.</div>
           </div>
         </div>
       </div>
@@ -333,9 +310,9 @@
       <div class="card sub-vital">
         <div class="head">
           <h2 class="hTitle">💓 Tanda Vital</h2>
-          <div class="pill">Kondisi saat asesmen</div>
+          <div class="pill">Asesmen</div>
         </div>
-        <p class="note">Tekanan darah dan nadi membantu melihat kondisi hemodinamik pasien saat asesmen.</p>
+        <p class="note">Tekanan darah, nadi, dan hidrasi membantu menilai kondisi klinis saat pemeriksaan.</p>
 
         <div class="row">
           <div class="field">
@@ -354,8 +331,8 @@
             <input id="pulse" type="number" min="1" step="1" placeholder="84" />
           </div>
           <div class="field">
-            <label>Status cairan</label>
-            <select id="cairan">
+            <label>Status hidrasi</label>
+            <select id="hidrasi">
               <option value="baik">Terkontrol</option>
               <option value="sedang">Perlu pantau</option>
               <option value="buruk">Overload / bengkak</option>
@@ -400,7 +377,6 @@
         <div class="field">
           <label>UFG / Target UF (mL)</label>
           <input id="ufg" type="number" min="0" step="1" placeholder="2000" />
-          <div class="help">Jika tersedia, UFG dipakai untuk konteks kontrol cairan.</div>
         </div>
 
         <div class="field">
@@ -424,9 +400,9 @@
       <div class="card sub-comorb">
         <div class="head">
           <h2 class="hTitle">🧬 Komorbid</h2>
-          <div class="pill">Faktor risiko</div>
+          <div class="pill">Risiko klinis</div>
         </div>
-        <p class="note">Komorbid membantu menentukan apakah pasien perlu evaluasi program yang lebih ketat.</p>
+        <p class="note">Komorbid membantu menentukan apakah program HD perlu evaluasi lebih ketat.</p>
 
         <div class="chips">
           <label class="chip"><input type="checkbox" id="dm"> Diabetes</label>
@@ -442,7 +418,7 @@
           <label class="chip"><input type="checkbox" id="akses"> Masalah akses vaskular</label>
         </div>
 
-        <div class="field" style="margin-top:14px;">
+        <div class="field" style="margin-top:14px">
           <label>Keluhan / catatan klinis</label>
           <textarea id="catatan" placeholder="Contoh: sesak, lemah, kram, sering hipotensi, sesi sering terputus"></textarea>
         </div>
@@ -451,7 +427,7 @@
       <div class="card sub-result full">
         <div class="head">
           <h2 class="hTitle">📊 Hasil Skrining</h2>
-          <div class="pill">Output utama</div>
+          <div class="pill">Adekuasi + program HD</div>
         </div>
 
         <div class="resultBox" id="resultBox">
@@ -464,7 +440,7 @@
           <div class="metric">
             <div class="k">BMI</div>
             <div class="v" id="bmiVal">--</div>
-            <div class="s">Dihitung dari BB sekarang dan TB</div>
+            <div class="s">BB sekarang dan TB</div>
           </div>
           <div class="metric">
             <div class="k">Δ BB</div>
@@ -485,11 +461,11 @@
 
         <div class="toolbar" style="margin-top:14px">
           <button class="btn-primary" onclick="calculate()">✨ Hitung</button>
-          <button class="btn-indigo" onclick="saveLocal()">💾 Simpan Lokal</button>
+          <button class="btn-violet" onclick="saveLocal()">💾 Simpan Lokal</button>
           <button class="btn-green" onclick="exportPDF()">📄 Simpan PDF</button>
           <button class="btn-dark" onclick="shareWA()">💬 Share WA</button>
-          <button class="btn-light" onclick="shareNative()">📤 Share</button>
-          <button class="btn-rose" onclick="resetAll()">↩ Reset</button>
+          <button class="btn-blue" onclick="shareNative()">📤 Share</button>
+          <button class="btn-light" onclick="resetAll()">↩ Reset</button>
         </div>
       </div>
 
@@ -504,7 +480,7 @@
           <div class="field">
             <label>Nomor WA tujuan</label>
             <input id="waTo" type="tel" placeholder="62812xxxxxxx" />
-            <div class="help">Pakai format internasional tanpa tanda plus.</div>
+            <div class="help">Format internasional tanpa tanda plus.</div>
           </div>
           <div class="field">
             <label>Pesan ringkas</label>
@@ -520,7 +496,7 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
     </div>
 
     <div class="footer">
-      Aplikasi edukasi skrining program HD rutin. Keputusan klinis akhir tetap harus berdasarkan dokter/nephrologist dan SOP unit HD.
+      Aplikasi edukasi skrining program HD rutin. Keputusan klinis akhir tetap berdasarkan dokter/nephrologist dan SOP unit HD.
     </div>
   </div>
 
@@ -534,7 +510,7 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
         alert('Masukkan nomor HP terlebih dahulu.');
         return;
       }
-      localStorage.setItem('renal_hd_login_phone', phone);
+      localStorage.setItem('sunset_renal_login_phone', phone);
       $('loginOverlay').classList.add('hidden');
       $('app').classList.remove('hidden');
     }
@@ -628,24 +604,39 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
       if(ktv >= target){
         status = 'Memenuhi target';
         cls = 'resultBox good';
-        text = info + 'Hasil masuk kategori baik sesuai target. Tetap perhatikan tekanan darah, nadi, BB kering, cairan, dan komorbid.';
+        text = info + 'Adekuasi masuk kategori baik sesuai target. Program HD tampak sesuai, tetapi tetap perhatikan tanda vital, BB kering, hidrasi, dan komorbid.';
       } else if(ktv >= 1.2){
         status = 'Cukup, pantau';
         cls = 'resultBox warn';
-        text = info + 'Hasil masih di atas batas minimal umum, tetapi belum optimal untuk target program yang dipilih.';
+        text = info + 'Adekuasi masih di atas batas minimal umum, tetapi program HD perlu dipantau dan dievaluasi berdasarkan kondisi klinis.';
       } else {
         status = 'Di bawah target';
         cls = 'resultBox bad';
-        text = info + 'Hasil di bawah target. Evaluasi durasi, QB, QD, UFG, akses vaskular, dan kondisi klinis perlu dipertimbangkan.';
+        text = info + 'Adekuasi berada di bawah target. Evaluasi durasi, QB, QD, UFG, akses vaskular, dan kondisi klinis perlu dipertimbangkan.';
       }
 
-      if(riskCount >= 3) text += ' Pasien memiliki beberapa komorbid sehingga evaluasi lebih ketat dianjurkan.';
-      if(durasi < 180) text += ' Durasi HD relatif singkat.';
-      if($('akses').checked) text += ' Masalah akses vaskular dapat menurunkan kualitas sesi.';
-      if($('cairan').value === 'buruk') text += ' Status cairan menunjukkan overload / bengkak.';
-      if(sbp >= 180 || dbp >= 110) text += ' Tekanan darah sangat tinggi saat asesmen.';
-      if(pulse < 60 || pulse > 100) text += ' Nadi berada di luar kisaran umum dan perlu diperhatikan.';
-      text += ` Usia pasien ${umur} tahun.`;
+      const programFlags = [];
+      const bp = sbp / dbp;
+      if(deltaBB > 3) programFlags.push('selisih BB sekarang dan BB kering cukup besar');
+      if($('hidrasi').value === 'buruk') programFlags.push('status hidrasi menunjukkan overload');
+      if(sbp >= 180 || dbp >= 110) programFlags.push('tekanan darah sangat tinggi');
+      if(sbp < 90 || dbp < 60) programFlags.push('tekanan darah rendah');
+      if(pulse < 60 || pulse > 100) programFlags.push('nadi di luar kisaran umum');
+      if(riskCount >= 3) programFlags.push('komorbid cukup banyak');
+      if($('akses').checked) programFlags.push('ada masalah akses vaskular');
+      if(durasi < 180) programFlags.push('durasi HD relatif singkat');
+      if(ufg > 0 && deltaBB > 0 && ufg < deltaBB * 800) programFlags.push('UFG perlu dicocokkan dengan selisih BB dan kondisi hidrasi');
+
+      if(programFlags.length >= 4){
+        text += ' Program HD tampak perlu evaluasi dokter karena: ' + programFlags.slice(0,3).join(', ') + '.';
+      } else if(programFlags.length > 0){
+        text += ' Program HD perlu dipantau karena: ' + programFlags.join(', ') + '.';
+      } else {
+        text += ' Program HD tampak sesuai berdasarkan asesmen yang diinput.';
+      }
+
+      if($('cairan').value === 'buruk') text += ' Status cairan juga menunjukkan overload/bengkak.';
+      if($('catatan').value.trim()) text += ' Catatan: ' + $('catatan').value.trim();
 
       resultBox.className = cls;
       statusPill.textContent = status;
@@ -658,11 +649,13 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
         `BB sekarang: ${bbNow} kg`,
         `BB kering: ${bbDry} kg`,
         `TB: ${tb} cm`,
+        `BMI: ${bmi ? bmi.toFixed(1) : '--'}`,
         `Tekanan darah: ${sbp}/${dbp} mmHg`,
         `Nadi: ${pulse} x/menit`,
+        `Status hidrasi: ${$('hidrasi').value}`,
         `Frekuensi: ${freq}x/minggu`,
         `Durasi: ${durasi} menit`,
-        `QB/QD/UFG: ${qb || '-'} / ${qd || '-'} / ${ufg || '-'} `,
+        `QB/QD/UFG: ${qb || '-'} / ${qd || '-'} / ${ufg || '-'}`,
         `Target: ${target}`,
         `spKt/V: ${ktv.toFixed(2)}`,
         `Komorbid: ${riskCount}`,
@@ -675,7 +668,7 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
 
     function saveLocal(){
       const payload = {
-        phone: localStorage.getItem('renal_hd_login_phone') || '',
+        phone: localStorage.getItem('sunset_renal_login_phone') || '',
         summary: window.__lastSummary || '',
         savedAt: new Date().toISOString()
       };
@@ -683,7 +676,7 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'renal_hd_skrining.json';
+      a.download = 'sunset_renal_hd_skrining.json';
       a.click();
       URL.revokeObjectURL(url);
     }
@@ -692,14 +685,14 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
       const text = window.__lastSummary || $('sharePreview').textContent || 'Belum ada hasil.';
       const w = window.open('', '_blank');
       w.document.write(`
-        <html><head><title>Renal HD Report</title>
+        <html><head><title>Sunset Renal HD Report</title>
         <style>
           body{font-family:Arial,sans-serif;padding:24px;color:#111827}
           h1{margin:0 0 12px}
           .box{border:1px solid #e5e7eb;border-radius:16px;padding:18px;white-space:pre-wrap;line-height:1.65}
           .small{color:#64748b;font-size:12px;margin-top:10px}
         </style></head><body>
-          <h1>Hasil Skrining Renal HD Care</h1>
+          <h1>Hasil Skrining Sunset Renal HD Care</h1>
           <div class="box">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
           <p class="small">Gunakan Print browser lalu pilih Save as PDF.</p>
         </body></html>
@@ -720,12 +713,10 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
     async function shareNative(){
       const text = window.__lastSummary || $('sharePreview').textContent || 'Belum ada hasil.';
       if(navigator.share){
-        try{
-          await navigator.share({title:'Renal HD Care', text});
-        }catch(e){}
+        try{ await navigator.share({title:'Sunset Renal HD Care', text}); }catch(e){}
       }else{
         navigator.clipboard?.writeText(text);
-        alert('Perangkat tidak mendukung share bawaan. Ringkasan disalin ke clipboard.');
+        alert('Share bawaan tidak tersedia. Ringkasan disalin ke clipboard.');
       }
     }
 
@@ -733,7 +724,7 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
       ['nama','umur','tb','bbNow','bbDry','sbp','dbp','pulse','durasi','qb','qd','ufg','pre','post','catatan','waTo','waMsg','loginPhone'].forEach(id => { if($(id)) $(id).value = ''; });
       ['dm','ht','hf','anemia','malnutrisi','hipotensi','stroke','cad','obesitas','ckd','akses'].forEach(id => { if($(id)) $(id).checked = false; });
       $('gender').value = 'L';
-      $('cairan').value = 'baik';
+      $('hidrasi').value = 'baik';
       $('freq').value = '3';
       $('target').value = '1.4';
       $('statusPill').textContent = 'Menunggu input';
@@ -748,7 +739,7 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
       window.__lastSummary = '';
     }
 
-    if(localStorage.getItem('renal_hd_login_phone')){
+    if(localStorage.getItem('sunset_renal_login_phone')){
       $('loginOverlay').classList.add('hidden');
       $('app').classList.remove('hidden');
     }
