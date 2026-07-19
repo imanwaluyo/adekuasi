@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Sunset Renal HD Care</title>
+  <title>Renal HD Care - Adekuasi & Program</title>
   <style>
     :root{
       --bg1:#fff7ed;
@@ -81,6 +81,34 @@
       border:1px solid rgba(255,255,255,.18);
       font-size:12px;font-weight:800
     }
+
+    .tabs{
+      display:flex;
+      gap:10px;
+      margin-top:16px;
+      flex-wrap:wrap;
+    }
+    .tabBtn{
+      border:none;
+      cursor:pointer;
+      border-radius:16px;
+      padding:13px 16px;
+      font-size:14px;
+      font-weight:950;
+      display:inline-flex;
+      align-items:center;
+      gap:9px;
+      transition:.15s ease;
+      box-shadow:0 10px 20px rgba(15,23,42,.08);
+      background:#fff7ed;
+      color:#9a3412;
+      border:1px solid #fed7aa;
+    }
+    .tabBtn.active{
+      background:linear-gradient(135deg,#f97316,#fb7185);
+      color:#fff;
+    }
+
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
     .full{grid-column:1/-1}
     .card{
@@ -155,7 +183,10 @@
       padding:18px;
       min-height:190px;
       color:#fff;
-      display:flex;flex-direction:column;justify-content:center;gap:8px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:8px;
       background:linear-gradient(135deg,#3b2f2f,#0f172a)
     }
     .status{
@@ -192,6 +223,8 @@
       line-height:1.6;
       white-space:pre-wrap
     }
+    .panel{display:none}
+    .panel.active{display:block}
     .loginOverlay{
       position:fixed;inset:0;z-index:9999;
       background:rgba(15,23,42,.48);
@@ -217,7 +250,7 @@
       body{padding:10px}
       .topbar{padding:18px;border-radius:22px}
       .card{padding:15px}
-      button{width:100%;justify-content:center}
+      button,.tabBtn{width:100%;justify-content:center}
     }
   </style>
 </head>
@@ -250,16 +283,21 @@
           </svg>
         </div>
         <div class="title">
-          <h1>Sunset Renal HD Care</h1>
-          <p>Warna sore untuk skrining adekuasi dan program hemodialisis rutin. Pre/post ureum tetap opsional, tetapi program HD juga dinilai dari BB sekarang, BB kering, tekanan darah, nadi, hidrasi, komorbid, QB, QD, dan UFG.</p>
+          <h1>Renal HD Care</h1>
+          <p>Tab terpisah untuk <b>Adekuasi</b> dan <b>Program</b>. Pre/post ureum bersifat opsional, sedangkan program dinilai dari BB sekarang, BB kering, tekanan darah, nadi, hidrasi, komorbid, QB, QD, dan UFG.</p>
         </div>
       </div>
       <div class="tags">
         <div class="tag">🌅 Warna sore</div>
-        <div class="tag">🩺 Renal medical</div>
-        <div class="tag">📱 Mobile & iPhone</div>
-        <div class="tag">🖥️ PC</div>
+        <div class="tag">🩺 Medical renal</div>
+        <div class="tag">📱 Mobile</div>
+        <div class="tag">🖥️ Desktop</div>
       </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tabBtn active" id="tabAdekuasiBtn" onclick="showTab('adekuasi')">📈 Adekuasi</button>
+      <button class="tabBtn" id="tabProgramBtn" onclick="showTab('program')">💧 Program</button>
     </div>
 
     <div class="grid">
@@ -268,7 +306,7 @@
           <h2 class="hTitle">👤 Data Pasien</h2>
           <div class="pill">Identitas</div>
         </div>
-        <p class="note">Bagian ini dipakai untuk gambaran pasien dan ukuran tubuh.</p>
+        <p class="note">Dipakai untuk gambaran umum dan ukuran tubuh.</p>
 
         <div class="row">
           <div class="field">
@@ -312,7 +350,7 @@
           <h2 class="hTitle">💓 Tanda Vital</h2>
           <div class="pill">Asesmen</div>
         </div>
-        <p class="note">Tekanan darah, nadi, dan hidrasi membantu menilai kondisi klinis saat pemeriksaan.</p>
+        <p class="note">Tekanan darah, nadi, dan hidrasi dipakai pada evaluasi program HD.</p>
 
         <div class="row">
           <div class="field">
@@ -343,57 +381,100 @@
 
       <div class="card sub-dialysis">
         <div class="head">
-          <h2 class="hTitle">💧 Program Dialisis</h2>
-          <div class="pill">QB / QD / UFG</div>
+          <h2 class="hTitle">💧 Data Dialisis</h2>
+          <div class="pill">Program</div>
         </div>
-        <p class="note">Parameter ini mengikuti hasil pemeriksaan atau asesmen di aplikasi.</p>
-
-        <div class="row">
-          <div class="field">
-            <label>Durasi HD (menit)</label>
-            <input id="durasi" type="number" min="1" step="1" placeholder="240" />
+        <div id="adekuasiPanel" class="panel active">
+          <p class="note">Panel adekuasi fokus pada pembersihan urea. Pre/post ureum tetap opsional.</p>
+          <div class="row">
+            <div class="field">
+              <label>Durasi HD (menit)</label>
+              <input id="durasiA" type="number" min="1" step="1" placeholder="240" />
+            </div>
+            <div class="field">
+              <label>Frekuensi / minggu</label>
+              <select id="freqA">
+                <option value="2">2 kali/minggu</option>
+                <option value="3" selected>3 kali/minggu</option>
+                <option value="4">4 kali/minggu</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label>QB (mL/menit)</label>
+              <input id="qbA" type="number" min="0" step="1" placeholder="250" />
+            </div>
+            <div class="field">
+              <label>QD (mL/menit)</label>
+              <input id="qdA" type="number" min="0" step="1" placeholder="500" />
+            </div>
           </div>
           <div class="field">
-            <label>Frekuensi / minggu</label>
-            <select id="freq">
-              <option value="2">2 kali/minggu</option>
-              <option value="3" selected>3 kali/minggu</option>
-              <option value="4">4 kali/minggu</option>
+            <label>Ureum pre-HD (opsional)</label>
+            <input id="preA" type="number" min="0" step="0.1" placeholder="80" />
+          </div>
+          <div class="field">
+            <label>Ureum post-HD (opsional)</label>
+            <input id="postA" type="number" min="0" step="0.1" placeholder="20" />
+          </div>
+          <div class="field">
+            <label>Target minimal spKt/V</label>
+            <select id="targetA">
+              <option value="1.4" selected>1.4</option>
+              <option value="1.2">1.2</option>
             </select>
           </div>
-        </div>
-
-        <div class="row">
-          <div class="field">
-            <label>QB (mL/menit)</label>
-            <input id="qb" type="number" min="0" step="1" placeholder="250" />
-          </div>
-          <div class="field">
-            <label>QD (mL/menit)</label>
-            <input id="qd" type="number" min="0" step="1" placeholder="500" />
+          <div class="toolbar">
+            <button class="btn-primary" onclick="calculateAdekuasi()">✨ Hitung Adekuasi</button>
           </div>
         </div>
 
-        <div class="field">
-          <label>UFG / Target UF (mL)</label>
-          <input id="ufg" type="number" min="0" step="1" placeholder="2000" />
-        </div>
-
-        <div class="field">
-          <label>Target minimal spKt/V</label>
-          <select id="target">
-            <option value="1.4" selected>1.4</option>
-            <option value="1.2">1.2</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>Ureum pre-HD (opsional)</label>
-          <input id="pre" type="number" min="0" step="0.1" placeholder="80" />
-        </div>
-        <div class="field">
-          <label>Ureum post-HD (opsional)</label>
-          <input id="post" type="number" min="0" step="0.1" placeholder="20" />
+        <div id="programPanel" class="panel">
+          <p class="note">Panel program menilai kondisi cairan dan kesiapan terapi secara klinis.</p>
+          <div class="row">
+            <div class="field">
+              <label>Durasi HD (menit)</label>
+              <input id="durasiP" type="number" min="1" step="1" placeholder="240" />
+            </div>
+            <div class="field">
+              <label>Frekuensi / minggu</label>
+              <select id="freqP">
+                <option value="2">2 kali/minggu</option>
+                <option value="3" selected>3 kali/minggu</option>
+                <option value="4">4 kali/minggu</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label>QB (mL/menit)</label>
+              <input id="qbP" type="number" min="0" step="1" placeholder="250" />
+            </div>
+            <div class="field">
+              <label>QD (mL/menit)</label>
+              <input id="qdP" type="number" min="0" step="1" placeholder="500" />
+            </div>
+          </div>
+          <div class="field">
+            <label>UFG / Target UF (mL)</label>
+            <input id="ufgP" type="number" min="0" step="1" placeholder="2000" />
+          </div>
+          <div class="field">
+            <label>Status hidrasi</label>
+            <select id="hidrasiP">
+              <option value="baik">Terkontrol</option>
+              <option value="sedang">Perlu pantau</option>
+              <option value="buruk">Overload / bengkak</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Keluhan / catatan klinis</label>
+            <textarea id="catatanP" placeholder="Contoh: sesak, kram, hipotensi, sesi sering terputus"></textarea>
+          </div>
+          <div class="toolbar">
+            <button class="btn-primary" onclick="calculateProgram()">💧 Hitung Program</button>
+          </div>
         </div>
       </div>
 
@@ -402,7 +483,7 @@
           <h2 class="hTitle">🧬 Komorbid</h2>
           <div class="pill">Risiko klinis</div>
         </div>
-        <p class="note">Komorbid membantu menentukan apakah program HD perlu evaluasi lebih ketat.</p>
+        <p class="note">Komorbid membantu menentukan perlunya evaluasi lebih ketat.</p>
 
         <div class="chips">
           <label class="chip"><input type="checkbox" id="dm"> Diabetes</label>
@@ -417,23 +498,18 @@
           <label class="chip"><input type="checkbox" id="ckd"> HD lama / CKD lama</label>
           <label class="chip"><input type="checkbox" id="akses"> Masalah akses vaskular</label>
         </div>
-
-        <div class="field" style="margin-top:14px">
-          <label>Keluhan / catatan klinis</label>
-          <textarea id="catatan" placeholder="Contoh: sesak, lemah, kram, sering hipotensi, sesi sering terputus"></textarea>
-        </div>
       </div>
 
       <div class="card sub-result full">
         <div class="head">
-          <h2 class="hTitle">📊 Hasil Skrining</h2>
-          <div class="pill">Adekuasi + program HD</div>
+          <h2 class="hTitle">📊 Hasil</h2>
+          <div class="pill">Tab aktif</div>
         </div>
 
         <div class="resultBox" id="resultBox">
           <div class="status" id="statusPill">Menunggu input</div>
           <div class="score" id="score">--</div>
-          <div class="resultText" id="resultText">Masukkan data pasien dan dialisis untuk melihat hasil.</div>
+          <div class="resultText" id="resultText">Pilih tab Adekuasi atau Program, lalu isi data dan hitung.</div>
         </div>
 
         <div class="summary">
@@ -460,7 +536,6 @@
         </div>
 
         <div class="toolbar" style="margin-top:14px">
-          <button class="btn-primary" onclick="calculate()">✨ Hitung</button>
           <button class="btn-violet" onclick="saveLocal()">💾 Simpan Lokal</button>
           <button class="btn-green" onclick="exportPDF()">📄 Simpan PDF</button>
           <button class="btn-dark" onclick="shareWA()">💬 Share WA</button>
@@ -480,11 +555,10 @@
           <div class="field">
             <label>Nomor WA tujuan</label>
             <input id="waTo" type="tel" placeholder="62812xxxxxxx" />
-            <div class="help">Format internasional tanpa tanda plus.</div>
           </div>
           <div class="field">
             <label>Pesan ringkas</label>
-            <input id="waMsg" type="text" placeholder="Hasil skrining adekuasi HD" />
+            <input id="waMsg" type="text" placeholder="Hasil skrining HD" />
           </div>
         </div>
 
@@ -503,6 +577,7 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
   <script>
     const $ = (id) => document.getElementById(id);
     window.__lastSummary = '';
+    let activeTab = 'adekuasi';
 
     function loginApp(){
       const phone = $('loginPhone').value.trim();
@@ -510,9 +585,20 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
         alert('Masukkan nomor HP terlebih dahulu.');
         return;
       }
-      localStorage.setItem('sunset_renal_login_phone', phone);
+      localStorage.setItem('renal_hd_login_phone', phone);
       $('loginOverlay').classList.add('hidden');
       $('app').classList.remove('hidden');
+    }
+
+    function showTab(tab){
+      activeTab = tab;
+      $('tabAdekuasiBtn').classList.toggle('active', tab === 'adekuasi');
+      $('tabProgramBtn').classList.toggle('active', tab === 'program');
+      $('adekuasiPanel').classList.toggle('active', tab === 'adekuasi');
+      $('programPanel').classList.toggle('active', tab === 'program');
+      $('resultText').textContent = tab === 'adekuasi'
+        ? 'Tab Adekuasi aktif. Isi data lalu hitung untuk melihat status adekuasi.'
+        : 'Tab Program aktif. Isi data lalu hitung untuk menilai program HD.';
     }
 
     function getRiskCount(){
@@ -526,7 +612,33 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
       return bb / (m * m);
     }
 
-    function calculate(){
+    function baseSummary(name, gender, umur, tb, bbNow, bbDry, sbp, dbp, pulse, riskCount){
+      const bmi = getBMI(bbNow, tb);
+      const deltaBB = bbNow - bbDry;
+      return {
+        name,
+        gender,
+        umur,
+        tb,
+        bbNow,
+        bbDry,
+        sbp,
+        dbp,
+        pulse,
+        bmi,
+        deltaBB,
+        riskCount
+      };
+    }
+
+    function renderSharedFields(bmi, deltaBB, riskCount, hasPrePost){
+      $('bmiVal').textContent = bmi ? bmi.toFixed(1) : '--';
+      $('bbDeltaVal').textContent = isFinite(deltaBB) ? deltaBB.toFixed(1) + ' kg' : '--';
+      $('riskVal').textContent = riskCount;
+      $('prepostVal').textContent = hasPrePost ? 'Ada' : 'Tidak ada';
+    }
+
+    function calculateAdekuasi(){
       const name = $('nama').value.trim() || 'Pasien';
       const gender = $('gender').value;
       const umur = $('umur').value.trim() || '-';
@@ -536,14 +648,13 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
       const sbp = parseFloat($('sbp').value);
       const dbp = parseFloat($('dbp').value);
       const pulse = parseFloat($('pulse').value);
-      const durasi = parseFloat($('durasi').value);
-      const qb = parseFloat($('qb').value) || 0;
-      const qd = parseFloat($('qd').value) || 0;
-      const ufg = parseFloat($('ufg').value) || 0;
-      const freq = parseInt($('freq').value, 10);
-      const target = parseFloat($('target').value);
-      const pre = parseFloat($('pre').value);
-      const post = parseFloat($('post').value);
+      const durasi = parseFloat($('durasiA').value);
+      const qb = parseFloat($('qbA').value) || 0;
+      const qd = parseFloat($('qdA').value) || 0;
+      const freq = parseInt($('freqA').value, 10);
+      const target = parseFloat($('targetA').value);
+      const pre = parseFloat($('preA').value);
+      const post = parseFloat($('postA').value);
 
       const resultBox = $('resultBox');
       const statusPill = $('statusPill');
@@ -555,10 +666,7 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
         statusPill.textContent = 'Input belum lengkap';
         score.textContent = '--';
         resultText.textContent = 'Isi minimal TB, BB sekarang, BB kering, tekanan darah, nadi, dan durasi HD.';
-        $('bmiVal').textContent = '--';
-        $('bbDeltaVal').textContent = '--';
-        $('riskVal').textContent = getRiskCount();
-        $('prepostVal').textContent = 'Opsional';
+        renderSharedFields(null, bbNow-bbDry, getRiskCount(), false);
         $('sharePreview').textContent = 'Belum ada hasil yang dapat dibagikan.';
         return;
       }
@@ -577,8 +685,7 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
         const heightFactor = Math.max(0.9, Math.min(1.12, 165 / Math.max(tb, 120)));
         const timeFactor = durasi / 240;
         const clearanceFactor = 1 + ((qb / 300) * 0.08) + ((qd / 500) * 0.05);
-        const ufFactor = ufg > 0 ? Math.max(0.92, Math.min(1.08, 2500 / Math.max(ufg, 500))) : 1;
-        ktv = Math.max(0, (-Math.log(ratio)) * 0.95 * timeFactor * clearanceFactor * sexFactor * sizeFactor * heightFactor * ufFactor);
+        ktv = Math.max(0, (-Math.log(ratio)) * 0.95 * timeFactor * clearanceFactor * sexFactor * sizeFactor * heightFactor);
         info = `Pre/Post ada (${pre.toFixed(1)} → ${post.toFixed(1)} mg/dL). `;
       } else {
         const sexFactor = gender === 'P' ? 1.04 : 1.0;
@@ -587,62 +694,33 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
         const timeFactor = durasi / 240;
         const freqFactor = freq === 2 ? 0.92 : (freq === 4 ? 1.08 : 1.0);
         const flowFactor = 1 + ((qb / 300) * 0.07) + ((qd / 500) * 0.04);
-        const ufFactor = ufg > 0 ? Math.max(0.92, Math.min(1.08, 2500 / Math.max(ufg, 500))) : 1;
-        ktv = Math.max(0, 1.08 * timeFactor * sizeFactor * sexFactor * bmiFactor * freqFactor * flowFactor * ufFactor);
+        ktv = Math.max(0, 1.08 * timeFactor * sizeFactor * sexFactor * bmiFactor * freqFactor * flowFactor);
       }
 
       score.textContent = ktv.toFixed(2);
-      $('bmiVal').textContent = bmi ? bmi.toFixed(1) : '--';
-      $('bbDeltaVal').textContent = deltaBB.toFixed(1) + ' kg';
-      $('riskVal').textContent = riskCount;
-      $('prepostVal').textContent = hasPrePost ? 'Ada' : 'Tidak ada';
+      renderSharedFields(bmi, deltaBB, riskCount, hasPrePost);
 
-      let status = '';
-      let cls = '';
-      let text = '';
-
+      let status = '', cls = '', text = '';
       if(ktv >= target){
         status = 'Memenuhi target';
         cls = 'resultBox good';
-        text = info + 'Adekuasi masuk kategori baik sesuai target. Program HD tampak sesuai, tetapi tetap perhatikan tanda vital, BB kering, hidrasi, dan komorbid.';
+        text = info + 'Adekuasi baik sesuai target. Tetap perhatikan tanda vital, BB kering, hidrasi, dan komorbid.';
       } else if(ktv >= 1.2){
         status = 'Cukup, pantau';
         cls = 'resultBox warn';
-        text = info + 'Adekuasi masih di atas batas minimal umum, tetapi program HD perlu dipantau dan dievaluasi berdasarkan kondisi klinis.';
+        text = info + 'Adekuasi masih di atas batas minimal umum, tetapi belum optimal untuk target program yang dipilih.';
       } else {
         status = 'Di bawah target';
         cls = 'resultBox bad';
-        text = info + 'Adekuasi berada di bawah target. Evaluasi durasi, QB, QD, UFG, akses vaskular, dan kondisi klinis perlu dipertimbangkan.';
+        text = info + 'Adekuasi di bawah target. Evaluasi durasi, QB, QD, dan akses vaskular perlu dipertimbangkan.';
       }
-
-      const programFlags = [];
-      const bp = sbp / dbp;
-      if(deltaBB > 3) programFlags.push('selisih BB sekarang dan BB kering cukup besar');
-      if($('hidrasi').value === 'buruk') programFlags.push('status hidrasi menunjukkan overload');
-      if(sbp >= 180 || dbp >= 110) programFlags.push('tekanan darah sangat tinggi');
-      if(sbp < 90 || dbp < 60) programFlags.push('tekanan darah rendah');
-      if(pulse < 60 || pulse > 100) programFlags.push('nadi di luar kisaran umum');
-      if(riskCount >= 3) programFlags.push('komorbid cukup banyak');
-      if($('akses').checked) programFlags.push('ada masalah akses vaskular');
-      if(durasi < 180) programFlags.push('durasi HD relatif singkat');
-      if(ufg > 0 && deltaBB > 0 && ufg < deltaBB * 800) programFlags.push('UFG perlu dicocokkan dengan selisih BB dan kondisi hidrasi');
-
-      if(programFlags.length >= 4){
-        text += ' Program HD tampak perlu evaluasi dokter karena: ' + programFlags.slice(0,3).join(', ') + '.';
-      } else if(programFlags.length > 0){
-        text += ' Program HD perlu dipantau karena: ' + programFlags.join(', ') + '.';
-      } else {
-        text += ' Program HD tampak sesuai berdasarkan asesmen yang diinput.';
-      }
-
-      if($('cairan').value === 'buruk') text += ' Status cairan juga menunjukkan overload/bengkak.';
-      if($('catatan').value.trim()) text += ' Catatan: ' + $('catatan').value.trim();
 
       resultBox.className = cls;
       statusPill.textContent = status;
       resultText.textContent = text;
 
       const summary = [
+        `TAB: ADEKUASI`,
         `Nama: ${name}`,
         `Jenis kelamin: ${gender === 'P' ? 'Perempuan' : 'Laki-laki'}`,
         `Usia: ${umur} tahun`,
@@ -652,10 +730,9 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
         `BMI: ${bmi ? bmi.toFixed(1) : '--'}`,
         `Tekanan darah: ${sbp}/${dbp} mmHg`,
         `Nadi: ${pulse} x/menit`,
-        `Status hidrasi: ${$('hidrasi').value}`,
         `Frekuensi: ${freq}x/minggu`,
         `Durasi: ${durasi} menit`,
-        `QB/QD/UFG: ${qb || '-'} / ${qd || '-'} / ${ufg || '-'}`,
+        `QB/QD: ${qb || '-'} / ${qd || '-'}`,
         `Target: ${target}`,
         `spKt/V: ${ktv.toFixed(2)}`,
         `Komorbid: ${riskCount}`,
@@ -666,9 +743,136 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
       window.__lastSummary = summary;
     }
 
+    function calculateProgram(){
+      const name = $('nama').value.trim() || 'Pasien';
+      const gender = $('gender').value;
+      const umur = $('umur').value.trim() || '-';
+      const tb = parseFloat($('tb').value);
+      const bbNow = parseFloat($('bbNow').value);
+      const bbDry = parseFloat($('bbDry').value);
+      const sbp = parseFloat($('sbp').value);
+      const dbp = parseFloat($('dbp').value);
+      const pulse = parseFloat($('pulse').value);
+      const durasi = parseFloat($('durasiP').value);
+      const qb = parseFloat($('qbP').value) || 0;
+      const qd = parseFloat($('qdP').value) || 0;
+      const ufg = parseFloat($('ufgP').value) || 0;
+      const freq = parseInt($('freqP').value, 10);
+      const h = $('hidrasiP').value;
+      const note = $('catatanP').value.trim();
+
+      const resultBox = $('resultBox');
+      const statusPill = $('statusPill');
+      const score = $('score');
+      const resultText = $('resultText');
+
+      if([tb, bbNow, bbDry, sbp, dbp, pulse, durasi].some(v => Number.isNaN(v) || v <= 0)){
+        resultBox.className = 'resultBox';
+        statusPill.textContent = 'Input belum lengkap';
+        score.textContent = '--';
+        resultText.textContent = 'Isi minimal TB, BB sekarang, BB kering, tekanan darah, nadi, dan durasi HD.';
+        renderSharedFields(getBMI(bbNow, tb), bbNow-bbDry, getRiskCount(), false);
+        $('sharePreview').textContent = 'Belum ada hasil yang dapat dibagikan.';
+        return;
+      }
+
+      const bmi = getBMI(bbNow, tb);
+      const deltaBB = bbNow - bbDry;
+      const riskCount = getRiskCount();
+
+      let programScore = 100;
+      if(h === 'sedang') programScore -= 10;
+      if(h === 'buruk') programScore -= 25;
+      if(deltaBB > 3) programScore -= 10;
+      if(deltaBB > 5) programScore -= 10;
+      if(sbp >= 180 || dbp >= 110) programScore -= 15;
+      if(sbp < 90 || dbp < 60) programScore -= 15;
+      if(pulse < 60 || pulse > 100) programScore -= 8;
+      if(freq === 2) programScore -= 8;
+      if(freq === 4) programScore += 5;
+      if(durasi < 180) programScore -= 12;
+      if(durasi >= 240) programScore += 5;
+      if(qb < 200) programScore -= 8;
+      if(qb >= 250) programScore += 5;
+      if(qd < 400) programScore -= 5;
+      if(qd >= 500) programScore += 4;
+      if(ufg > 0 && deltaBB > 0 && ufg < deltaBB * 700) programScore -= 10;
+      if(ufg > 0 && ufg > deltaBB * 1200) programScore -= 8;
+      if(riskCount >= 3) programScore -= 10;
+      if($('akses').checked) programScore -= 8;
+      if($('hipotensi').checked) programScore -= 8;
+      if($('hf').checked) programScore -= 6;
+      if($('malnutrisi').checked) programScore -= 6;
+      if($('anemia').checked) programScore -= 4;
+      if($('catatanP').value.trim()) programScore -= 2;
+
+      programScore = Math.max(0, Math.min(100, programScore));
+
+      renderSharedFields(bmi, deltaBB, riskCount, false);
+      score.textContent = programScore + '/100';
+
+      let status = '', cls = '', text = '';
+      if(programScore >= 80){
+        status = 'Program baik';
+        cls = 'resultBox good';
+        text = 'Program HD tampak sesuai berdasarkan BB kering, hidrasi, tanda vital, dan parameter asesmen lain.';
+      } else if(programScore >= 60){
+        status = 'Perlu pantau';
+        cls = 'resultBox warn';
+        text = 'Program HD masih cukup, tetapi perlu evaluasi berkala pada cairan, tanda vital, dan komorbid.';
+      } else {
+        status = 'Perlu evaluasi';
+        cls = 'resultBox bad';
+        text = 'Program HD sebaiknya dievaluasi oleh tim HD karena beberapa indikator klinis belum optimal.';
+      }
+
+      const issues = [];
+      if(h === 'buruk') issues.push('hidrasi overload');
+      if(deltaBB > 3) issues.push('selisih BB sekarang dan BB kering besar');
+      if(sbp >= 180 || dbp >= 110) issues.push('tekanan darah tinggi');
+      if(sbp < 90 || dbp < 60) issues.push('tekanan darah rendah');
+      if(pulse < 60 || pulse > 100) issues.push('nadi tidak stabil');
+      if(freq === 2) issues.push('frekuensi dua kali seminggu');
+      if(durasi < 180) issues.push('durasi HD singkat');
+      if(qb < 200) issues.push('QB rendah');
+      if(qd < 400) issues.push('QD rendah');
+      if(ufg > 0 && ufg < deltaBB * 700) issues.push('UFG mungkin kurang');
+      if($('akses').checked) issues.push('masalah akses vaskular');
+      if(riskCount >= 3) issues.push('komorbid cukup banyak');
+
+      if(issues.length) text += ' Faktor yang perlu perhatian: ' + issues.slice(0,4).join(', ') + '.';
+      if(note) text += ' Catatan: ' + note;
+
+      resultBox.className = cls;
+      statusPill.textContent = status;
+      resultText.textContent = text;
+
+      const summary = [
+        `TAB: PROGRAM`,
+        `Nama: ${name}`,
+        `Jenis kelamin: ${gender === 'P' ? 'Perempuan' : 'Laki-laki'}`,
+        `Usia: ${umur} tahun`,
+        `BB sekarang: ${bbNow} kg`,
+        `BB kering: ${bbDry} kg`,
+        `TB: ${tb} cm`,
+        `BMI: ${bmi ? bmi.toFixed(1) : '--'}`,
+        `Tekanan darah: ${sbp}/${dbp} mmHg`,
+        `Nadi: ${pulse} x/menit`,
+        `Status hidrasi: ${h}`,
+        `Frekuensi: ${freq}x/minggu`,
+        `Durasi: ${durasi} menit`,
+        `QB/QD/UFG: ${qb || '-'} / ${qd || '-'} / ${ufg || '-'}`,
+        `Program score: ${programScore}/100`,
+        `Komorbid: ${riskCount}`
+      ].join('\n');
+
+      $('sharePreview').textContent = summary;
+      window.__lastSummary = summary;
+    }
+
     function saveLocal(){
       const payload = {
-        phone: localStorage.getItem('sunset_renal_login_phone') || '',
+        phone: localStorage.getItem('renal_hd_login_phone') || '',
         summary: window.__lastSummary || '',
         savedAt: new Date().toISOString()
       };
@@ -676,7 +880,7 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'sunset_renal_hd_skrining.json';
+      a.download = 'renal_hd_skrining.json';
       a.click();
       URL.revokeObjectURL(url);
     }
@@ -685,14 +889,14 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
       const text = window.__lastSummary || $('sharePreview').textContent || 'Belum ada hasil.';
       const w = window.open('', '_blank');
       w.document.write(`
-        <html><head><title>Sunset Renal HD Report</title>
+        <html><head><title>Renal HD Report</title>
         <style>
           body{font-family:Arial,sans-serif;padding:24px;color:#111827}
           h1{margin:0 0 12px}
           .box{border:1px solid #e5e7eb;border-radius:16px;padding:18px;white-space:pre-wrap;line-height:1.65}
           .small{color:#64748b;font-size:12px;margin-top:10px}
         </style></head><body>
-          <h1>Hasil Skrining Sunset Renal HD Care</h1>
+          <h1>Hasil Skrining Renal HD Care</h1>
           <div class="box">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
           <p class="small">Gunakan Print browser lalu pilih Save as PDF.</p>
         </body></html>
@@ -704,7 +908,7 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
 
     function shareWA(){
       const number = $('waTo').value.trim();
-      const msg = ($('waMsg').value.trim() || 'Hasil skrining adekuasi HD') + '\n\n' + (window.__lastSummary || $('sharePreview').textContent);
+      const msg = ($('waMsg').value.trim() || 'Hasil skrining HD') + '\n\n' + (window.__lastSummary || $('sharePreview').textContent);
       const encoded = encodeURIComponent(msg);
       const url = number ? `https://wa.me/${number}?text=${encoded}` : `https://api.whatsapp.com/send?text=${encoded}`;
       window.open(url, '_blank');
@@ -713,7 +917,7 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
     async function shareNative(){
       const text = window.__lastSummary || $('sharePreview').textContent || 'Belum ada hasil.';
       if(navigator.share){
-        try{ await navigator.share({title:'Sunset Renal HD Care', text}); }catch(e){}
+        try{ await navigator.share({title:'Renal HD Care', text}); }catch(e){}
       }else{
         navigator.clipboard?.writeText(text);
         alert('Share bawaan tidak tersedia. Ringkasan disalin ke clipboard.');
@@ -721,25 +925,28 @@ Anda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.
     }
 
     function resetAll(){
-      ['nama','umur','tb','bbNow','bbDry','sbp','dbp','pulse','durasi','qb','qd','ufg','pre','post','catatan','waTo','waMsg','loginPhone'].forEach(id => { if($(id)) $(id).value = ''; });
+      ['nama','umur','tb','bbNow','bbDry','sbp','dbp','pulse','durasiA','qbA','qdA','preA','postA','durasiP','qbP','qdP','ufgP','catatanP','waTo','waMsg','loginPhone'].forEach(id => { if($(id)) $(id).value = ''; });
       ['dm','ht','hf','anemia','malnutrisi','hipotensi','stroke','cad','obesitas','ckd','akses'].forEach(id => { if($(id)) $(id).checked = false; });
       $('gender').value = 'L';
       $('hidrasi').value = 'baik';
-      $('freq').value = '3';
-      $('target').value = '1.4';
+      $('hidrasiP').value = 'baik';
+      $('freqA').value = '3';
+      $('freqP').value = '3';
+      $('targetA').value = '1.4';
       $('statusPill').textContent = 'Menunggu input';
       $('score').textContent = '--';
-      $('resultText').textContent = 'Masukkan data pasien dan dialisis untuk melihat hasil.';
-      $('sharePreview').textContent = 'Hasil skrining akan muncul di sini setelah dihitung.\nAnda bisa menyalin ringkasan, menyimpannya, atau membagikannya ke WhatsApp.';
+      $('resultText').textContent = 'Pilih tab Adekuasi atau Program, lalu isi data dan hitung.';
+      $('sharePreview').textContent = 'Hasil skrining akan muncul di sini setelah dihitung.';
       $('resultBox').className = 'resultBox';
       $('bmiVal').textContent = '--';
       $('bbDeltaVal').textContent = '--';
       $('riskVal').textContent = '0';
       $('prepostVal').textContent = 'Opsional';
       window.__lastSummary = '';
+      showTab('adekuasi');
     }
 
-    if(localStorage.getItem('sunset_renal_login_phone')){
+    if(localStorage.getItem('renal_hd_login_phone')){
       $('loginOverlay').classList.add('hidden');
       $('app').classList.remove('hidden');
     }
